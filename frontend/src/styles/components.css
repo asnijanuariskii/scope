@@ -208,7 +208,7 @@
 /* --- Header (Reference UI style) --- */
 .tds-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: var(--space-lg) var(--space-xl);
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
   background: transparent; border-bottom: none;
 }
 .tds-header__left { display: flex; flex-direction: column; gap: 2px; }
