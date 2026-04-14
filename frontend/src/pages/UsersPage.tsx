@@ -54,21 +54,23 @@ export default function UsersPage() {
     <MainLayout>
       <div className="tds-page-header">
         <h1 className="tds-page-header__title">User Management</h1>
-        <Button onClick={() => setModalOpen(true)}>+ Tambah User</Button>
+        <Button className="tds-btn--add" onClick={() => setModalOpen(true)}>+ Tambah User</Button>
       </div>
 
       {isLoading && <div className="tds-loading">Memuat data user...</div>}
       {error && <div className="tds-error">Gagal memuat data user.</div>}
 
       {!isLoading && !error && (
+        <div className="tds-table-card">
         <table className="tds-table">
-          <thead><tr><th>Nama</th><th>Employee ID</th><th>No. Telepon</th><th>Role</th><th style={{ textAlign: 'center' }}>Aksi</th></tr></thead>
+          <thead><tr><th style={{ width: 48, textAlign: 'center' }}>NO</th><th>Nama</th><th>Employee ID</th><th>No. Telepon</th><th>Role</th><th style={{ textAlign: 'center' }}>Aksi</th></tr></thead>
           <tbody>
             {activeUsers.length === 0 ? (
-              <tr><td colSpan={5} className="tds-table__empty">Belum ada user.</td></tr>
-            ) : activeUsers.map((user) => (
+              <tr><td colSpan={6} className="tds-table__empty">Belum ada user.</td></tr>
+            ) : activeUsers.map((user, idx) => (
               <tr key={user.id}>
-                <td>{user.nama}</td>
+                <td className="tds-table__no">{idx + 1}</td>
+                <td style={{ fontWeight: 600 }}>{user.nama}</td>
                 <td>{user.employeeId}</td>
                 <td>{user.phoneNumber}</td>
                 <td><span className="tds-badge tds-badge--blue">{user.role}</span></td>
@@ -79,6 +81,7 @@ export default function UsersPage() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
 
       <Modal open={modalOpen} title="Tambah User Baru" onClose={closeModal}>

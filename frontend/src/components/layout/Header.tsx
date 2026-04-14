@@ -1,17 +1,40 @@
+import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../shared/Button';
 
+const routeNames: Record<string, string> = {
+  '/leads': 'Leads',
+  '/users': 'Users',
+};
+
 export default function Header() {
   const { user, logout } = useAuth();
+  const location = useLocation();
+
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const pageTitle = routeNames[`/${pathParts[0]}`] || pathParts[0] || 'Dashboard';
+  const isDetail = pathParts.length > 1;
 
   return (
     <header className="tds-header">
-      {user && (
-        <span className="tds-header__user">
-          {user.employeeId} — <span className="tds-header__role">{user.role}</span>
-        </span>
-      )}
-      <Button variant="danger" size="sm" onClick={logout}>Logout</Button>
+      <div className="tds-header__left">
+        <div className="tds-header__breadcrumb">
+          Dashboard › {pageTitle}{isDetail ? ` › Detail` : ''}
+        </div>
+        <div className="tds-header__title">{isDetail ? 'Detail' : pageTitle}</div>
+      </div>
+      <div className="tds-header__right">
+        {user && (
+          <div className="tds-header__user-info">
+            <div className="tds-header__avatar">{user.employeeId.slice(0, 2)}</div>
+            <div>
+              <div className="tds-header__user-name">Hello, {user.employeeId}</div>
+              <div className="tds-header__user-role">{user.role}</div>
+            </div>
+          </div>
+        )}
+        <Button variant="secondary" size="sm" onClick={logout}>Logout</Button>
+      </div>
     </header>
   );
 }
