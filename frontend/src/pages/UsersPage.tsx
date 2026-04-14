@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import MainLayout from '../components/layout/MainLayout';
 import { Button, Modal, Input, Select } from '../components/shared';
+import { IconPlus } from '@tabler/icons-react';
 import api from '../services/api';
 import type { User, Role } from '../types';
 
@@ -54,7 +55,7 @@ export default function UsersPage() {
     <MainLayout>
       <div className="tds-page-header">
         <h1 className="tds-page-header__title">User Management</h1>
-        <Button className="tds-btn--add" onClick={() => setModalOpen(true)}>+ Tambah User</Button>
+        <Button className="tds-btn--add" onClick={() => setModalOpen(true)}><IconPlus size={16} stroke={2} /> Tambah User</Button>
       </div>
 
       {isLoading && <div className="tds-loading">Memuat data user...</div>}

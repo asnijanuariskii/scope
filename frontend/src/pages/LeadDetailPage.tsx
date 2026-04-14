@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { IconArrowLeft } from '@tabler/icons-react';
 import MainLayout from '../components/layout/MainLayout';
 import { StatusBadge } from '../components/shared';
 import api from '../services/api';
@@ -32,7 +33,7 @@ export default function LeadDetailPage() {
   return (
     <MainLayout>
       <div style={{ marginBottom: 16 }}>
-        <Link to="/leads">← Kembali ke daftar Lead</Link>
+        <Link to="/leads" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><IconArrowLeft size={16} stroke={1.5} /> Kembali ke daftar Lead</Link>
       </div>
 
       <div className="tds-card" style={{ marginBottom: 24 }}>

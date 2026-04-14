@@ -1,6 +1,7 @@
 import type { Lead } from '../../types';
 import { PipelineStatus } from '../../types';
 import StatusBadge from '../shared/StatusBadge';
+import { IconDots } from '@tabler/icons-react';
 
 interface LeadTableProps {
   leads: Lead[];
@@ -38,7 +39,7 @@ export default function LeadTable({ leads, onRowClick, startIndex = 0 }: LeadTab
             <th>ALAMAT</th>
             <th>PIC</th>
             <th>STATUS</th>
-            <th style={{ width: 48, textAlign: 'center' }}>⋯</th>
+            <th style={{ width: 48, textAlign: 'center' }}></th>
           </tr>
         </thead>
         <tbody>
@@ -61,7 +62,7 @@ export default function LeadTable({ leads, onRowClick, startIndex = 0 }: LeadTab
                 </td>
                 <td>{status ? <StatusBadge status={status} /> : '-'}</td>
                 <td style={{ textAlign: 'center' }}>
-                  <button className="tds-table__action-btn" onClick={(e) => { e.stopPropagation(); onRowClick(lead.id); }}>⋯</button>
+                  <button className="tds-table__action-btn" onClick={(e) => { e.stopPropagation(); onRowClick(lead.id); }}><IconDots size={18} stroke={1.5} /></button>
                 </td>
               </tr>
             );

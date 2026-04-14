@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Role } from '../../types';
+import { IconClipboardList, IconChartBar, IconUsers, IconSettings } from '@tabler/icons-react';
 
 export default function Sidebar() {
   const { user } = useAuth();
@@ -13,12 +14,12 @@ export default function Sidebar() {
       </div>
 
       <NavLink to="/leads" className={({ isActive }) => `tds-sidebar__link ${isActive ? 'tds-sidebar__link--active' : ''}`}>
-        <span className="tds-sidebar__icon">📋</span> Leads
+        <IconClipboardList size={20} stroke={1.5} /> Leads
       </NavLink>
 
       {(user?.role === Role.SUPERADMIN || user?.role === Role.SUPERIOR) && (
-        <NavLink to="/leads" end className={({ isActive }) => `tds-sidebar__link ${!isActive ? '' : ''}`}>
-          <span className="tds-sidebar__icon">📊</span> Pipeline
+        <NavLink to="/pipeline" className={({ isActive }) => `tds-sidebar__link ${isActive ? 'tds-sidebar__link--active' : ''}`}>
+          <IconChartBar size={20} stroke={1.5} /> Pipeline
         </NavLink>
       )}
 
@@ -26,7 +27,7 @@ export default function Sidebar() {
         <>
           <div className="tds-sidebar__section">Master</div>
           <NavLink to="/users" className={({ isActive }) => `tds-sidebar__link ${isActive ? 'tds-sidebar__link--active' : ''}`}>
-            <span className="tds-sidebar__icon">👤</span> Users
+            <IconUsers size={20} stroke={1.5} /> Users
           </NavLink>
         </>
       )}

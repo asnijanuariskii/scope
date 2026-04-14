@@ -1,10 +1,12 @@
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../shared/Button';
+import { IconLogout } from '@tabler/icons-react';
 
 const routeNames: Record<string, string> = {
   '/leads': 'Leads',
   '/users': 'Users',
+  '/pipeline': 'Pipeline',
 };
 
 export default function Header() {
@@ -19,7 +21,7 @@ export default function Header() {
     <header className="tds-header">
       <div className="tds-header__left">
         <div className="tds-header__breadcrumb">
-          Dashboard › {pageTitle}{isDetail ? ` › Detail` : ''}
+          Dashboard › {pageTitle}{isDetail ? ' › Detail' : ''}
         </div>
         <div className="tds-header__title">{isDetail ? 'Detail' : pageTitle}</div>
       </div>
@@ -33,7 +35,9 @@ export default function Header() {
             </div>
           </div>
         )}
-        <Button variant="secondary" size="sm" onClick={logout}>Logout</Button>
+        <Button variant="secondary" size="sm" onClick={logout}>
+          <IconLogout size={16} stroke={1.5} /> Logout
+        </Button>
       </div>
     </header>
   );

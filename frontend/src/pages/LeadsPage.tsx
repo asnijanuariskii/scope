@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { IconPlus } from '@tabler/icons-react';
 import MainLayout from '../components/layout/MainLayout';
 import LeadFilters from '../components/leads/LeadFilters';
 import LeadTable from '../components/leads/LeadTable';
@@ -41,7 +42,7 @@ export default function LeadsPage() {
     <MainLayout>
       <div className="tds-page-header">
         <div />
-        <Button className="tds-btn--add" onClick={() => {}}>+ Add Lead</Button>
+        <Button className="tds-btn--add" onClick={() => {}}><IconPlus size={16} stroke={2} /> Add Lead</Button>
       </div>
 
       <LeadFilters
