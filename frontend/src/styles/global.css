@@ -1,0 +1,45 @@
+/* =============================================================================
+   Passport Design System — Global Styles
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import './tokens.css';
+@import './components.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font: var(--font-body2);
+  color: var(--text-high-emphasis);
+  background: var(--color-n100);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1 { font: var(--font-h1); color: var(--text-high-emphasis); }
+h2 { font: var(--font-h2); color: var(--text-high-emphasis); }
+h3 { font: var(--font-h3); color: var(--text-high-emphasis); }
+
+a {
+  color: var(--text-activity);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+input, select, textarea, button {
+  font-family: var(--font-family);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-n400); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-n600); }

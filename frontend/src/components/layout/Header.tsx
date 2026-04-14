@@ -1,40 +1,17 @@
 import { useAuth } from '../../context/AuthContext';
+import Button from '../shared/Button';
 
 export default function Header() {
   const { user, logout } = useAuth();
 
   return (
-    <header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        gap: 16,
-        padding: '12px 24px',
-        background: '#fff',
-        borderBottom: '1px solid #e2e8f0',
-      }}
-    >
+    <header className="tds-header">
       {user && (
-        <span style={{ fontSize: 14, color: '#475569' }}>
-          {user.employeeId} — <strong>{user.role}</strong>
+        <span className="tds-header__user">
+          {user.employeeId} — <span className="tds-header__role">{user.role}</span>
         </span>
       )}
-
-      <button
-        onClick={logout}
-        style={{
-          padding: '6px 14px',
-          fontSize: 13,
-          background: '#ef4444',
-          color: '#fff',
-          border: 'none',
-          borderRadius: 4,
-          cursor: 'pointer',
-        }}
-      >
-        Logout
-      </button>
+      <Button variant="danger" size="sm" onClick={logout}>Logout</Button>
     </header>
   );
 }

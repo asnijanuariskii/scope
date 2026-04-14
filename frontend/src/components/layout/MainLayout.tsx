@@ -2,21 +2,13 @@ import type { ReactNode } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-
-export default function MainLayout({ children }: MainLayoutProps) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div className="tds-layout">
       <Sidebar />
-
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div className="tds-layout__main">
         <Header />
-
-        <main style={{ flex: 1, padding: 24, background: '#f8fafc' }}>
-          {children}
-        </main>
+        <main className="tds-layout__content">{children}</main>
       </div>
     </div>
   );
