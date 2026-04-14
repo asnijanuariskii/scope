@@ -1,0 +1,6 @@
+openapi: 3.0.3
+info:
+  title: Project API
+  version: 0.1.0
+  description: API specification. Update this file when routes change.
+paths: {}

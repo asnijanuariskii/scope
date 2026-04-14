@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Deploy to VM",
+  "description": "Manual button to deploy latest code to cloud VM. SSH in, pull latest, rebuild, restart containers, verify services.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "SSH into VM, pull latest code, rebuild if needed, restart containers, verify services, health check."
+  }
+}

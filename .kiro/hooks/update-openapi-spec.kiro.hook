@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "name": "Update OpenAPI Spec",
+  "description": "Remind to update docs/openapi.yaml when API route files are edited.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "backend/**/routes/**",
+      "backend/**/handlers/**",
+      "backend/**/api/**"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "API route files were edited. Check if docs/openapi.yaml needs to be updated to reflect the changes. If so, update it."
+  }
+}

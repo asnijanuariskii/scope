@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Validate After Task",
+  "description": "After completing a spec task, test the functionality like a real user before moving on. Call API with test data, navigate UI with browser, query DB to verify, check edge cases.",
+  "version": "1",
+  "when": {
+    "type": "postTaskExecution"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Test the functionality: call API with test data, navigate UI with browser, query DB to verify, check edge cases. Only proceed if validation passes."
+  }
+}
