@@ -1,6 +1,1490 @@
 openapi: 3.0.3
 info:
-  title: Project API
-  version: 0.1.0
-  description: API specification. Update this file when routes change.
-paths: {}
+  title: SCO Lead Management API
+  version: 1.0.0
+  description: >
+    API untuk mengelola data EO/Mitra (Lead), assignment PIC, tracking status pipeline,
+    dan dokumentasi aktivitas follow-up.
+
+servers:
+  - url: http://localhost:3000
+    description: Local development
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    # --- Enums ---
+    Role:
+      type: string
+      enum: [SUPERADMIN, SUPERIOR, PIC]
+
+    PipelineStatus:
+      type: string
+      enum: [NEW_LEAD, CONTACTED, IN_DISCUSSION, PITCHING, NEGOTIATION, ON_HOLD, DEAL, LOST]
+
+    ActivityType:
+      type: string
+      enum: [CALL, CHAT, VISIT]
+
+    # --- Core Entities ---
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nama:
+          type: string
+        employeeId:
+          type: string
+        phoneNumber:
+          type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        isDeleted:
+          type: boolean
+        deletedAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Lead:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        namaEo:
+          type: string
+        tipeId:
+          type: string
+          format: uuid
+        alamat:
+          type: string
+        speciality:
+          type: string
+          nullable: true
+        linkSosmed:
+          type: string
+          nullable: true
+        lastActivityDate:
+          type: string
+          format: date-time
+          nullable: true
+        lastActivityType:
+          type: string
+          nullable: true
+        isDeleted:
+          type: boolean
+        deletedAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+
+    TipeLead:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nama:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+
+    ContactPerson:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        leadId:
+          type: string
+          format: uuid
+        nama:
+          type: string
+        noTelp:
+          type: string
+        jabatan:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Assignment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        leadId:
+          type: string
+          format: uuid
+        picId:
+          type: string
+          format: uuid
+        isActive:
+          type: boolean
+        assignedAt:
+          type: string
+          format: date-time
+        reassignedAt:
+          type: string
+          format: date-time
+          nullable: true
+        reassignedNotes:
+          type: string
+          nullable: true
+        assignedBy:
+          type: string
+          format: uuid
+
+    LeadStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        leadId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/PipelineStatus'
+        updatedAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          format: uuid
+
+    Activity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        leadId:
+          type: string
+          format: uuid
+        createdBy:
+          type: string
+          format: uuid
+        activityType:
+          $ref: '#/components/schemas/ActivityType'
+        notes:
+          type: string
+        nextFollowUpDate:
+          type: string
+          format: date-time
+        evidencePath:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    AuditTrail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        entityName:
+          type: string
+        entityId:
+          type: string
+          format: uuid
+        changedBy:
+          type: string
+          format: uuid
+        previousValue:
+          type: object
+          nullable: true
+        newValue:
+          type: object
+          nullable: true
+        changeTime:
+          type: string
+          format: date-time
+
+    # --- Request Bodies ---
+    CreateUserRequest:
+      type: object
+      required: [nama, employee_id, phone_number, role]
+      properties:
+        nama:
+          type: string
+          minLength: 1
+          maxLength: 255
+        employee_id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        phone_number:
+          type: string
+          minLength: 1
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/Role'
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        nama:
+          type: string
+          maxLength: 255
+        employee_id:
+          type: string
+          maxLength: 50
+        phone_number:
+          type: string
+          maxLength: 20
+        role:
+          $ref: '#/components/schemas/Role'
+
+    CreateLeadRequest:
+      type: object
+      required: [nama_eo, tipe_id, alamat]
+      properties:
+        nama_eo:
+          type: string
+          minLength: 1
+          maxLength: 255
+        tipe_id:
+          type: string
+          format: uuid
+        alamat:
+          type: string
+          minLength: 1
+          maxLength: 500
+        speciality:
+          type: string
+          maxLength: 255
+        link_sosmed:
+          type: string
+          format: uri
+
+    UpdateLeadRequest:
+      type: object
+      properties:
+        nama_eo:
+          type: string
+          maxLength: 255
+        tipe_id:
+          type: string
+          format: uuid
+        alamat:
+          type: string
+          maxLength: 500
+        speciality:
+          type: string
+          maxLength: 255
+        link_sosmed:
+          type: string
+          format: uri
+
+    CreateContactRequest:
+      type: object
+      required: [nama, no_telp, jabatan]
+      properties:
+        nama:
+          type: string
+          minLength: 1
+          maxLength: 255
+        no_telp:
+          type: string
+          minLength: 1
+          maxLength: 20
+        jabatan:
+          type: string
+          minLength: 1
+          maxLength: 100
+
+    UpdateContactRequest:
+      type: object
+      properties:
+        nama:
+          type: string
+          maxLength: 255
+        no_telp:
+          type: string
+          maxLength: 20
+        jabatan:
+          type: string
+          maxLength: 100
+
+    AssignRequest:
+      type: object
+      required: [pic_id]
+      properties:
+        pic_id:
+          type: string
+          format: uuid
+        notes:
+          type: string
+          description: If provided, treated as a re-assignment
+
+    UpdateStatusRequest:
+      type: object
+      required: [status]
+      properties:
+        status:
+          $ref: '#/components/schemas/PipelineStatus'
+
+    CreateActivityRequest:
+      type: object
+      required: [activity_type, notes, next_follow_up_date]
+      properties:
+        activity_type:
+          $ref: '#/components/schemas/ActivityType'
+        notes:
+          type: string
+          minLength: 1
+        next_follow_up_date:
+          type: string
+          format: date-time
+
+    LoginRequest:
+      type: object
+      required: [employee_id]
+      properties:
+        employee_id:
+          type: string
+
+    RefreshRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
+          type: string
+
+    CreateTipeLeadRequest:
+      type: object
+      required: [nama]
+      properties:
+        nama:
+          type: string
+          minLength: 1
+          maxLength: 255
+
+    # --- Response Wrappers ---
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+
+    PaginatedLeadResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Lead'
+            total:
+              type: integer
+            page:
+              type: integer
+            limit:
+              type: integer
+
+    ApiError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+
+  responses:
+    Unauthorized:
+      description: Token tidak valid atau tidak ditemukan
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            success: false
+            error:
+              code: UNAUTHORIZED
+              message: Token tidak valid atau tidak ditemukan
+    Forbidden:
+      description: Akses ditolak
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            success: false
+            error:
+              code: FORBIDDEN
+              message: Anda tidak memiliki akses untuk operasi ini
+    NotFound:
+      description: Resource tidak ditemukan
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            success: false
+            error:
+              code: NOT_FOUND
+              message: Resource tidak ditemukan
+    ValidationError:
+      description: Data tidak valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            success: false
+            error:
+              code: VALIDATION_ERROR
+              message: Data tidak valid
+              details: {}
+    Conflict:
+      description: Data duplikat
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            success: false
+            error:
+              code: CONFLICT
+              message: Data sudah ada
+
+paths:
+  # ==================== Health ====================
+  /api/health:
+    get:
+      tags: [Health]
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  # ==================== Auth ====================
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login dengan employee_id
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                      refresh_token:
+                        type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Users ====================
+  /api/users:
+    post:
+      tags: [Users]
+      summary: Buat user baru (Superadmin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: User berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    get:
+      tags: [Users]
+      summary: Daftar semua user (Superadmin only)
+      responses:
+        '200':
+          description: Daftar user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags: [Users]
+      summary: Detail user (Superadmin only)
+      responses:
+        '200':
+          description: Detail user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Users]
+      summary: Update user (Superadmin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User berhasil diupdate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Users]
+      summary: Soft delete user (Superadmin only)
+      responses:
+        '200':
+          description: User berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: User berhasil dihapus
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== Lead Types ====================
+  /api/lead-types:
+    post:
+      tags: [Lead Types]
+      summary: Tambah Tipe Lead (Superadmin, Superior)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTipeLeadRequest'
+      responses:
+        '201':
+          description: Tipe Lead berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/TipeLead'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    get:
+      tags: [Lead Types]
+      summary: Daftar semua Tipe Lead
+      responses:
+        '200':
+          description: Daftar tipe lead
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TipeLead'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Leads ====================
+  /api/leads:
+    post:
+      tags: [Leads]
+      summary: Buat Lead baru (Superadmin, Superior, PIC)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLeadRequest'
+      responses:
+        '201':
+          description: Lead berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Lead'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    get:
+      tags: [Leads]
+      summary: Daftar Lead dengan filter dan search
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/PipelineStatus'
+        - name: pic_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: tipe_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: last_activity_from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: last_activity_to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: search
+          in: query
+          description: Search nama_eo (case-insensitive)
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: Daftar Lead (paginated)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLeadResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/leads/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags: [Leads]
+      summary: Detail Lead
+      responses:
+        '200':
+          description: Detail Lead
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Lead'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Leads]
+      summary: Update Lead (Superadmin, Superior)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLeadRequest'
+      responses:
+        '200':
+          description: Lead berhasil diupdate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Lead'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      tags: [Leads]
+      summary: Soft delete Lead (Superadmin only)
+      responses:
+        '200':
+          description: Lead berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Lead berhasil dihapus
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== Contacts ====================
+  /api/leads/{leadId}/contacts:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags: [Contacts]
+      summary: Tambah Contact Person
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContactRequest'
+      responses:
+        '201':
+          description: Contact berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/ContactPerson'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    get:
+      tags: [Contacts]
+      summary: Daftar Contact Person per Lead
+      responses:
+        '200':
+          description: Daftar contact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContactPerson'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/leads/{leadId}/contacts/{id}:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    put:
+      tags: [Contacts]
+      summary: Update Contact Person
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContactRequest'
+      responses:
+        '200':
+          description: Contact berhasil diupdate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/ContactPerson'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== Assignments ====================
+  /api/leads/{leadId}/assignments:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags: [Assignments]
+      summary: Assign atau Re-assign Lead ke PIC (Superior only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRequest'
+      responses:
+        '201':
+          description: Assignment berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Assignment'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    get:
+      tags: [Assignments]
+      summary: Histori assignment (Superadmin, Superior)
+      responses:
+        '200':
+          description: Histori assignment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Assignment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ==================== Status Pipeline ====================
+  /api/leads/{leadId}/status:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags: [Status]
+      summary: Update status Lead
+      description: >
+        Transisi status harus mengikuti state machine yang valid.
+        Lead harus memiliki minimal 1 Activity sebelum status bisa diupdate.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStatusRequest'
+      responses:
+        '201':
+          description: Status berhasil diupdate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/LeadStatus'
+        '400':
+          description: Transisi tidak valid atau belum ada Activity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                invalidTransition:
+                  summary: Transisi status tidak valid
+                  value:
+                    success: false
+                    error:
+                      code: INVALID_TRANSITION
+                      message: Transisi status tidak valid
+                activityRequired:
+                  summary: Belum ada Activity
+                  value:
+                    success: false
+                    error:
+                      code: ACTIVITY_REQUIRED
+                      message: Lead harus memiliki minimal 1 Activity
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    get:
+      tags: [Status]
+      summary: Histori status Lead
+      responses:
+        '200':
+          description: Histori status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LeadStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ==================== Activities ====================
+  /api/leads/{leadId}/activities:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags: [Activities]
+      summary: Buat Activity baru (PIC only)
+      description: >
+        Notes wajib diisi. Untuk activity_type VISIT, evidence file wajib disertakan.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [activity_type, notes, next_follow_up_date]
+              properties:
+                activity_type:
+                  $ref: '#/components/schemas/ActivityType'
+                notes:
+                  type: string
+                  minLength: 1
+                next_follow_up_date:
+                  type: string
+                  format: date-time
+                evidence:
+                  type: string
+                  format: binary
+                  description: File JPG/PNG, max 5MB
+      responses:
+        '201':
+          description: Activity berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Activity'
+        '400':
+          description: Validasi gagal (notes kosong, Visit tanpa evidence)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              examples:
+                evidenceRequired:
+                  summary: Visit tanpa evidence
+                  value:
+                    success: false
+                    error:
+                      code: EVIDENCE_REQUIRED
+                      message: Activity Visit wajib menyertakan evidence
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          description: File terlalu besar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
+                success: false
+                error:
+                  code: FILE_TOO_LARGE
+                  message: Ukuran file maksimal adalah 5MB
+        '415':
+          description: Format file tidak didukung
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
+                success: false
+                error:
+                  code: INVALID_FILE_TYPE
+                  message: File harus berformat JPG atau PNG
+    get:
+      tags: [Activities]
+      summary: Daftar Activity per Lead
+      responses:
+        '200':
+          description: Daftar activity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/leads/{leadId}/activities/{id}:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    put:
+      tags: [Activities]
+      summary: Update Activity (PIC owner only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActivityRequest'
+      responses:
+        '200':
+          description: Activity berhasil diupdate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Activity'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Bukan pemilik Activity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
+                success: false
+                error:
+                  code: FORBIDDEN
+                  message: Anda tidak memiliki akses untuk operasi ini
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== Evidence ====================
+  /api/leads/{leadId}/activities/{activityId}/evidence:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: activityId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags: [Evidence]
+      summary: Upload evidence file (PIC only)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [evidence]
+              properties:
+                evidence:
+                  type: string
+                  format: binary
+                  description: File JPG/PNG, max 5MB
+      responses:
+        '200':
+          description: Evidence berhasil diupload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      evidencePath:
+                        type: string
+                      filename:
+                        type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '413':
+          description: File terlalu besar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
+                success: false
+                error:
+                  code: FILE_TOO_LARGE
+                  message: Ukuran file maksimal adalah 5MB
+        '415':
+          description: Format file tidak didukung
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+              example:
+                success: false
+                error:
+                  code: INVALID_FILE_TYPE
+                  message: File harus berformat JPG atau PNG
+
+  /api/evidence/{filename}:
+    parameters:
+      - name: filename
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Evidence]
+      summary: Download/view evidence file
+      responses:
+        '200':
+          description: File evidence
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==================== Audit Trail ====================
+  /api/leads/{leadId}/audit-trail:
+    parameters:
+      - name: leadId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags: [Audit Trail]
+      summary: Audit trail per Lead (Superadmin, Superior)
+      responses:
+        '200':
+          description: Audit trail entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditTrail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'

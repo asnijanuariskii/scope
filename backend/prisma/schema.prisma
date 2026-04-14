@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPERADMIN
+  SUPERIOR
+  PIC
+}
+
+enum PipelineStatus {
+  NEW_LEAD
+  CONTACTED
+  IN_DISCUSSION
+  PITCHING
+  NEGOTIATION
+  ON_HOLD
+  DEAL
+  LOST
+}
+
+enum ActivityType {
+  CALL
+  CHAT
+  VISIT
+}
+
+model User {
+  id          String    @id @default(uuid())
+  nama        String
+  employeeId  String    @unique @map("employee_id")
+  phoneNumber String    @map("phone_number")
+  role        Role
+  isDeleted   Boolean   @default(false) @map("is_deleted")
+  deletedAt   DateTime? @map("deleted_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  assignments  Assignment[]
+  activities   Activity[]
+  leadStatuses LeadStatus[]
+  auditTrails  AuditTrail[]
+  createdLeads Lead[]       @relation("CreatedBy")
+
+  @@map("users")
+}
+
+model Lead {
+  id               String    @id @default(uuid())
+  namaEo           String    @map("nama_eo")
+  tipeId           String    @map("tipe_id")
+  alamat           String
+  speciality       String?
+  linkSosmed       String?   @map("link_sosmed")
+  lastActivityDate DateTime? @map("last_activity_date")
+  lastActivityType String?   @map("last_activity_type")
+  isDeleted        Boolean   @default(false) @map("is_deleted")
+  deletedAt        DateTime? @map("deleted_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  createdBy        String    @map("created_by")
+
+  tipe          TipeLead       @relation(fields: [tipeId], references: [id])
+  creator       User           @relation("CreatedBy", fields: [createdBy], references: [id])
+  contacts      ContactPerson[]
+  assignments   Assignment[]
+  statuses      LeadStatus[]
+  activities    Activity[]
+
+  @@unique([namaEo], map: "leads_nama_eo_unique")
+  @@map("leads")
+}
+
+model TipeLead {
+  id        String   @id @default(uuid())
+  nama      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  createdBy String   @map("created_by")
+
+  leads Lead[]
+
+  @@map("tipe_lead")
+}
+
+model ContactPerson {
+  id        String   @id @default(uuid())
+  leadId    String   @map("lead_id")
+  nama      String
+  noTelp    String   @map("no_telp")
+  jabatan   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  lead Lead @relation(fields: [leadId], references: [id])
+
+  @@map("contact_person")
+}
+
+model Assignment {
+  id              String    @id @default(uuid())
+  leadId          String    @map("lead_id")
+  picId           String    @map("pic_id")
+  isActive        Boolean   @default(true) @map("is_active")
+  assignedAt      DateTime  @default(now()) @map("assigned_at")
+  reassignedAt    DateTime? @map("reassigned_at")
+  reassignedNotes String?   @map("reassigned_notes")
+  assignedBy      String    @map("assigned_by")
+
+  lead Lead @relation(fields: [leadId], references: [id])
+  pic  User @relation(fields: [picId], references: [id])
+
+  @@map("assignment")
+}
+
+model LeadStatus {
+  id        String         @id @default(uuid())
+  leadId    String         @map("lead_id")
+  status    PipelineStatus
+  updatedAt DateTime       @default(now()) @map("updated_at")
+  updatedBy String         @map("updated_by")
+
+  lead    Lead @relation(fields: [leadId], references: [id])
+  updater User @relation(fields: [updatedBy], references: [id])
+
+  @@map("leads_status")
+}
+
+model Activity {
+  id               String       @id @default(uuid())
+  leadId           String       @map("lead_id")
+  createdBy        String       @map("created_by")
+  activityType     ActivityType @map("activity_type")
+  notes            String
+  nextFollowUpDate DateTime     @map("next_follow_up_date")
+  evidencePath     String?      @map("evidence_path")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  lead    Lead @relation(fields: [leadId], references: [id])
+  creator User @relation(fields: [createdBy], references: [id])
+
+  @@map("activity")
+}
+
+model AuditTrail {
+  id            String   @id @default(uuid())
+  entityName    String   @map("entity_name")
+  entityId      String   @map("entity_id")
+  changedBy     String   @map("changed_by")
+  previousValue Json?    @map("previous_value")
+  newValue      Json?    @map("new_value")
+  changeTime    DateTime @default(now()) @map("change_time")
+
+  changer User @relation(fields: [changedBy], references: [id])
+
+  @@index([entityName, entityId])
+  @@map("audit_trail")
+}
