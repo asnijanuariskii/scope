@@ -23,7 +23,7 @@ router.post(
   upload.single('evidence'),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { activityId } = req.params;
+      const activityId = req.params.activityId as string;
 
       const activity = await activityRepository.findById(activityId);
       if (!activity) {
@@ -63,7 +63,7 @@ router.get(
   authenticate,
   (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { filename } = req.params;
+      const filename = req.params.filename as string;
       const filePath = path.join(UPLOAD_DIR, filename);
       res.sendFile(path.resolve(filePath));
     } catch (err) {

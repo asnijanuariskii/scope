@@ -41,7 +41,7 @@ export async function checkLeadOwnership(
     return;
   }
 
-  const leadId = req.params.leadId || req.params.id;
+  const leadId = (req.params.leadId || req.params.id) as string;
 
   if (!leadId) {
     throw new ForbiddenError("Anda tidak memiliki akses ke Lead ini");

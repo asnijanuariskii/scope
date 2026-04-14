@@ -39,7 +39,7 @@ router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
 // GET /:id — Get user by ID
 router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userService.findById(req.params.id);
+    const user = await userService.findById(req.params.id as string);
     res.status(200).json({ success: true, data: user });
   } catch (err) {
     next(err);
@@ -52,7 +52,7 @@ router.put(
   validate(updateUserSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await userService.update(req.params.id, req.body);
+      const user = await userService.update(req.params.id as string, req.body);
       res.status(200).json({ success: true, data: user });
     } catch (err) {
       next(err);
@@ -63,7 +63,7 @@ router.put(
 // DELETE /:id — Soft delete user
 router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await userService.softDelete(req.params.id);
+    await userService.softDelete(req.params.id as string);
     res.status(200).json({ success: true, data: { message: 'User berhasil dihapus' } });
   } catch (err) {
     next(err);

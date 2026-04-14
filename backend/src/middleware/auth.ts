@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../errors";
 import { Role } from "@prisma/client";
-
 export interface AuthUser {
   userId: string;
   role: Role;

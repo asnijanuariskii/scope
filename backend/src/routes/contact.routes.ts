@@ -17,7 +17,7 @@ router.post(
   validate(createContactSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const contact = await contactService.create(req.params.leadId, req.body, req.user!.userId);
+      const contact = await contactService.create(req.params.leadId as string, req.body, req.user!.userId);
       res.status(201).json({ success: true, data: contact });
     } catch (err) {
       next(err);
@@ -30,7 +30,7 @@ router.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const contacts = await contactService.findByLead(req.params.leadId);
+      const contacts = await contactService.findByLead(req.params.leadId as string);
       res.status(200).json({ success: true, data: contacts });
     } catch (err) {
       next(err);
@@ -44,7 +44,7 @@ router.put(
   validate(updateContactSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const contact = await contactService.update(req.params.id, req.body, req.user!.userId);
+      const contact = await contactService.update(req.params.id as string, req.body, req.user!.userId);
       res.status(200).json({ success: true, data: contact });
     } catch (err) {
       next(err);

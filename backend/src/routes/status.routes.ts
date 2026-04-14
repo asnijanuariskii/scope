@@ -19,7 +19,7 @@ router.post(
   validate(updateStatusSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const { status } = req.body;
 
       const newStatus = await statusPipelineService.updateStatus(
@@ -41,7 +41,7 @@ router.get(
   checkLeadOwnership,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const history = await statusPipelineService.getHistory(leadId);
 
       res.status(200).json({ success: true, data: history });

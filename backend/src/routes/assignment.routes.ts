@@ -24,7 +24,7 @@ router.post(
   validate(assignBodySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const { pic_id, notes } = req.body;
 
       let assignment;
@@ -47,7 +47,7 @@ router.get(
   authorize(Role.SUPERADMIN, Role.SUPERIOR),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const history = await assignmentService.getHistory(leadId);
       res.status(200).json({ success: true, data: history });
     } catch (err) {

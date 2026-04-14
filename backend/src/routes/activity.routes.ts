@@ -21,7 +21,7 @@ router.post(
   validate(createActivitySchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const activity = await activityService.create(
         leadId,
         req.body,
@@ -42,7 +42,7 @@ router.get(
   checkLeadOwnership,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const activities = await activityService.findByLead(leadId);
 
       res.status(200).json({ success: true, data: activities });
@@ -61,7 +61,7 @@ router.put(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const activity = await activityService.update(
-        req.params.id,
+        req.params.id as string,
         req.body,
         req.user!.userId,
       );

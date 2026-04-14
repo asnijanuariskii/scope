@@ -15,7 +15,7 @@ router.get(
   authorize(Role.SUPERADMIN, Role.SUPERIOR),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { leadId } = req.params;
+      const leadId = req.params.leadId as string;
       const auditTrail = await auditTrailService.getByLead(leadId);
 
       res.status(200).json({ success: true, data: auditTrail });

@@ -47,7 +47,7 @@ router.get(
   checkLeadOwnership,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const lead = await leadService.findById(req.params.id, req.user!);
+      const lead = await leadService.findById(req.params.id as string, req.user!);
       res.status(200).json({ success: true, data: lead });
     } catch (err) {
       next(err);
@@ -62,7 +62,7 @@ router.put(
   validate(updateLeadSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const lead = await leadService.update(req.params.id, req.body, req.user!.userId);
+      const lead = await leadService.update(req.params.id as string, req.body, req.user!.userId);
       res.status(200).json({ success: true, data: lead });
     } catch (err) {
       next(err);
@@ -76,7 +76,7 @@ router.delete(
   authorize(Role.SUPERADMIN),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await leadService.softDelete(req.params.id, req.user!.userId);
+      await leadService.softDelete(req.params.id as string, req.user!.userId);
       res.status(200).json({ success: true, data: { message: 'Lead berhasil dihapus' } });
     } catch (err) {
       next(err);
