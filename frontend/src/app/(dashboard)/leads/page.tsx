@@ -1,0 +1,58 @@
+'use client';
+
+import { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { IconPlus } from '@tabler/icons-react';
+import LeadTable from '@/components/leads/LeadTable';
+import LeadFilters from '@/components/leads/LeadFilters';
+import Pagination from '@/components/shared/Pagination';
+import { useLeads, type LeadFilters as LeadFiltersType } from '@/hooks/useLeads';
+import api from '@/services/api';
+import type { TipeLead } from '@/types';
+
+export default function LeadsPage() {
+  const router = useRouter();
+  const [filters, setFilters] = useState<LeadFiltersType>({ page: 1, limit: 10 });
+  const { data, isLoading, error } = useLeads(filters);
+
+  const { data: tipeLeads } = useQuery<TipeLead[]>({
+    queryKey: ['tipe-leads'],
+    queryFn: async () => { const { data: res } = await api.get<{ success: boolean; data: TipeLead[] }>('/lead-types'); return res.data; },
+  });
+
+  const tipeOptions = (tipeLeads ?? []).map((t) => ({ value: t.id, label: t.nama }));
+  const startIndex = ((filters.page ?? 1) - 1) * (filters.limit ?? 10);
+
+  const handleFilterChange = useCallback((f: LeadFiltersType) => setFilters({ ...f, page: 1, limit: 10 }), []);
+  const handlePageChange = useCallback((p: number) => setFilters((prev) => ({ ...prev, page: p })), []);
+  const handleRowClick = useCallback((id: string) => router.push(`/leads/${id}`), [router]);
+
+  return (
+    <>
+      <div className="flex items-center justify-between mb-6">
+        <div />
+        <button className="flex items-center gap-1.5 bg-brand text-white font-semibold text-sm py-2.5 px-5 rounded-full hover:bg-brand-dark transition-colors">
+          <IconPlus size={16} stroke={2} /> Add Lead
+        </button>
+      </div>
+
+      <LeadFilters filters={filters} onFilterChange={handleFilterChange} tipeOptions={tipeOptions} />
+
+      {isLoading && <p className="text-center text-n-600 py-12">Memuat data...</p>}
+      {error && <p className="text-r-400 bg-r-100 p-4 rounded-lg">Gagal memuat data Lead.</p>}
+
+      {data && (
+        <>
+          <LeadTable leads={data.data} onRowClick={handleRowClick} startIndex={startIndex} />
+          <div className="flex items-center justify-between mt-3">
+            <span className="text-xs text-n-600">
+              {data.total > 0 ? `${startIndex + 1} to ${Math.min(startIndex + (filters.limit ?? 10), data.total)} of ${data.total} entries` : '0 entries'}
+            </span>
+            <Pagination currentPage={data.page} totalPages={data.totalPages} onPageChange={handlePageChange} />
+          </div>
+        </>
+      )}
+    </>
+  );
+}

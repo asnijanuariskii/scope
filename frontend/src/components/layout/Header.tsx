@@ -1,43 +1,37 @@
-import { useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import Button from '../shared/Button';
+'use client';
+
+import { usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { IconLogout } from '@tabler/icons-react';
 
-const routeNames: Record<string, string> = {
-  '/leads': 'Leads',
-  '/users': 'Users',
-  '/pipeline': 'Pipeline',
-};
+const routeNames: Record<string, string> = { '/leads': 'Leads', '/users': 'Users' };
 
 export default function Header() {
   const { user, logout } = useAuth();
-  const location = useLocation();
-
-  const pathParts = location.pathname.split('/').filter(Boolean);
-  const pageTitle = routeNames[`/${pathParts[0]}`] || pathParts[0] || 'Dashboard';
-  const isDetail = pathParts.length > 1;
+  const pathname = usePathname();
+  const parts = pathname.split('/').filter(Boolean);
+  const title = routeNames[`/${parts[0]}`] || parts[0] || 'Dashboard';
+  const isDetail = parts.length > 1;
 
   return (
-    <header className="tds-header">
-      <div className="tds-header__left">
-        <div className="tds-header__breadcrumb">
-          Dashboard › {pageTitle}{isDetail ? ' › Detail' : ''}
-        </div>
-        <div className="tds-header__title">{isDetail ? 'Detail' : pageTitle}</div>
+    <header className="flex items-center justify-between px-6 pt-6 pb-4">
+      <div>
+        <p className="text-xs text-n-600">Dashboard › {title}{isDetail ? ' › Detail' : ''}</p>
+        <h1 className="text-xl font-bold">{isDetail ? 'Detail' : title}</h1>
       </div>
-      <div className="tds-header__right">
+      <div className="flex items-center gap-4">
         {user && (
-          <div className="tds-header__user-info">
-            <div className="tds-header__avatar">{user.employeeId.slice(0, 2)}</div>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-n-200 flex items-center justify-center text-xs font-bold text-n-600">{user.employeeId.slice(0, 2)}</div>
             <div>
-              <div className="tds-header__user-name">Hello, {user.employeeId}</div>
-              <div className="tds-header__user-role">{user.role}</div>
+              <p className="text-sm font-semibold">Hello, {user.employeeId}</p>
+              <p className="text-xs text-n-600">{user.role}</p>
             </div>
           </div>
         )}
-        <Button variant="secondary" size="sm" onClick={logout}>
+        <button onClick={logout} className="flex items-center gap-1.5 text-sm border border-n-200 rounded-lg px-3 py-1.5 hover:bg-n-100 transition-colors">
           <IconLogout size={16} stroke={1.5} /> Logout
-        </Button>
+        </button>
       </div>
     </header>
   );

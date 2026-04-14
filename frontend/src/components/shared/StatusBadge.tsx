@@ -1,23 +1,17 @@
-import { PipelineStatus } from '../../types';
+import { PipelineStatus } from '@/types';
 
-interface StatusBadgeProps { status: PipelineStatus; }
-
-const statusConfig: Record<PipelineStatus, { label: string; className: string }> = {
-  [PipelineStatus.NEW_LEAD]: { label: 'New Lead', className: 'tds-status--new-lead' },
-  [PipelineStatus.CONTACTED]: { label: 'Contacted', className: 'tds-status--contacted' },
-  [PipelineStatus.IN_DISCUSSION]: { label: 'In Discussion', className: 'tds-status--in-discussion' },
-  [PipelineStatus.PITCHING]: { label: 'Pitching', className: 'tds-status--pitching' },
-  [PipelineStatus.NEGOTIATION]: { label: 'Negotiation', className: 'tds-status--negotiation' },
-  [PipelineStatus.ON_HOLD]: { label: 'On Hold', className: 'tds-status--on-hold' },
-  [PipelineStatus.DEAL]: { label: 'Deal', className: 'tds-status--deal' },
-  [PipelineStatus.LOST]: { label: 'Lost', className: 'tds-status--lost' },
+const config: Record<PipelineStatus, { label: string; cls: string }> = {
+  [PipelineStatus.NEW_LEAD]: { label: 'New Lead', cls: 'bg-b-100 text-b-400' },
+  [PipelineStatus.CONTACTED]: { label: 'Contacted', cls: 'bg-emerald-50 text-emerald-700' },
+  [PipelineStatus.IN_DISCUSSION]: { label: 'In Discussion', cls: 'bg-y-100 text-amber-700' },
+  [PipelineStatus.PITCHING]: { label: 'Pitching', cls: 'bg-violet-50 text-violet-700' },
+  [PipelineStatus.NEGOTIATION]: { label: 'Negotiation', cls: 'bg-orange-50 text-orange-700' },
+  [PipelineStatus.ON_HOLD]: { label: 'On Hold', cls: 'bg-n-100 text-n-600' },
+  [PipelineStatus.DEAL]: { label: 'Deal', cls: 'bg-g-100 text-g-500' },
+  [PipelineStatus.LOST]: { label: 'Lost', cls: 'bg-r-100 text-r-400' },
 };
 
-export default function StatusBadge({ status }: StatusBadgeProps) {
-  const config = statusConfig[status];
-  return (
-    <span role="status" aria-label={`Status: ${config.label}`} className={`tds-status ${config.className}`}>
-      {config.label}
-    </span>
-  );
+export default function StatusBadge({ status }: { status: PipelineStatus }) {
+  const c = config[status];
+  return <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded ${c.cls}`}>{c.label}</span>;
 }
