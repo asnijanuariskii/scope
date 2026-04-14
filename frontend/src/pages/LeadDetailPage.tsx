@@ -31,12 +31,12 @@ export default function LeadDetailPage() {
 
   return (
     <MainLayout>
-      <div style={{ marginBottom: 'var(--space-lg)' }}>
+      <div style={{ marginBottom: 16 }}>
         <Link to="/leads">← Kembali ke daftar Lead</Link>
       </div>
 
-      <div className="tds-card" style={{ marginBottom: 'var(--space-xl)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-lg)' }}>
+      <div className="tds-card" style={{ marginBottom: 24 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <h1>{lead.namaEo}</h1>
           {lead.statuses && lead.statuses.length > 0 && (
             <StatusBadge status={[...lead.statuses].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0].status as PipelineStatus} />

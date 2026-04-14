@@ -16,11 +16,26 @@ export default function LeadsPage() {
 
   const { data: tipeLeads } = useQuery<TipeLead[]>({
     queryKey: ['tipe-leads'],
-    queryFn: async () => { const { data: res } = await api.get<{ success: boolean; data: TipeLead[] }>('/lead-types'); return res.data; },
+    queryFn: async () => {
+      const { data: res } = await api.get<{ success: boolean; data: TipeLead[] }>('/lead-types');
+      return res.data;
+    },
   });
 
   const tipeOptions = (tipeLeads ?? []).map((t) => ({ value: t.id, label: t.nama }));
   const startIndex = ((filters.page ?? 1) - 1) * (filters.limit ?? 10);
+
+  const handleFilterChange = useCallback((f: LeadFiltersType) => {
+    setFilters({ ...f, page: 1, limit: 10 });
+  }, []);
+
+  const handlePageChange = useCallback((p: number) => {
+    setFilters((prev) => ({ ...prev, page: p }));
+  }, []);
+
+  const handleRowClick = useCallback((id: string) => {
+    navigate(`/leads/${id}`);
+  }, [navigate]);
 
   return (
     <MainLayout>
@@ -31,7 +46,7 @@ export default function LeadsPage() {
 
       <LeadFilters
         filters={filters}
-        onFilterChange={useCallback((f: LeadFiltersType) => setFilters({ ...f, page: 1, limit: 10 }), [])}
+        onFilterChange={handleFilterChange}
         tipeOptions={tipeOptions}
       />
 
@@ -40,12 +55,12 @@ export default function LeadsPage() {
 
       {data && (
         <>
-          <LeadTable leads={data.data} onRowClick={useCallback((id: string) => navigate(`/leads/${id}`), [navigate])} startIndex={startIndex} />
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'var(--space-md)' }}>
+          <LeadTable leads={data.data} onRowClick={handleRowClick} startIndex={startIndex} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 }}>
             <span className="tds-pagination__info">
               {data.total > 0 ? `${startIndex + 1} to ${Math.min(startIndex + (filters.limit ?? 10), data.total)} of ${data.total} entries` : '0 entries'}
             </span>
-            <Pagination currentPage={data.page} totalPages={data.totalPages} onPageChange={useCallback((p: number) => setFilters((prev) => ({ ...prev, page: p })), [])} />
+            <Pagination currentPage={data.page} totalPages={data.totalPages} onPageChange={handlePageChange} />
           </div>
         </>
       )}
