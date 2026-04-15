@@ -112,8 +112,12 @@
   }
 
   /* ── ADS Table ── */
+  .ads-table-wrapper {
+    @apply border border-N-40 rounded-lg overflow-hidden;
+  }
+
   .ads-table {
-    @apply w-full text-body-md border border-N-40 rounded-lg overflow-hidden;
+    @apply w-full text-body-md;
   }
 
   .ads-table thead tr {

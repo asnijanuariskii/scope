@@ -14,6 +14,7 @@ export default function LeadTable({ leads, onRowClick, startIndex = 0 }: Props) 
   if (!leads.length) return <p className="text-center text-N-200 py-12">Tidak ada data Lead ditemukan.</p>;
 
   return (
+      <div className="ads-table-wrapper">
       <table className="ads-table">
         <thead><tr>
           <th className="text-center w-12">NO</th><th>TIPE</th><th>NAMA EO/MITRA</th><th>ALAMAT</th><th>PIC</th><th>STATUS</th><th className="w-10"></th>
@@ -41,5 +42,6 @@ export default function LeadTable({ leads, onRowClick, startIndex = 0 }: Props) 
           })}
         </tbody>
       </table>
+      </div>
   );
 }

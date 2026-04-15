@@ -43,6 +43,7 @@ export default function UsersPage() {
           </button>
         </div>
 
+        <div className="ads-table-wrapper">
         <table className="ads-table">
           <thead><tr>
             <th className="text-center w-12">NO</th><th>Nama</th><th>Employee ID</th><th>No. Telepon</th><th>Role</th><th className="text-center">Aksi</th>
@@ -67,6 +68,7 @@ export default function UsersPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {open && (
