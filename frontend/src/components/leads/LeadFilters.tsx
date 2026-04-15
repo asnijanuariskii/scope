@@ -16,7 +16,7 @@ export default function LeadFilters({ filters, onFilterChange, tipeOptions = [] 
   };
 
   return (
-    <div className="flex flex-wrap items-end gap-2 ads-card p-3 mb-4 [&_.mb-3]:mb-0">
+    <div className="flex flex-wrap items-end gap-2 [&_.mb-3]:mb-0">
       <div className="relative">
         <IconSearch size={16} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-N-200" />
         <input placeholder="Cari Nama EO..." value={filters.search ?? ''} onChange={(e) => update({ search: e.target.value })}

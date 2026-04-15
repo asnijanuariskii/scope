@@ -34,14 +34,15 @@ export default function UsersPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-heading-lg text-N-800">User Management</h1>
-        <button onClick={() => setOpen(true)} className="ads-btn">
-          <IconPlus size={16} stroke={2} /> Tambah User
-        </button>
-      </div>
-
       <div className="ads-card">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-N-30">
+          <h1 className="text-heading-lg text-N-800">User Management</h1>
+          <button onClick={() => setOpen(true)} className="ads-btn">
+            <IconPlus size={16} stroke={2} /> Tambah User
+          </button>
+        </div>
+
         <table className="ads-table">
           <thead><tr>
             <th className="text-center w-12">NO</th><th>Nama</th><th>Employee ID</th><th>No. Telepon</th><th>Role</th><th className="text-center">Aksi</th>
