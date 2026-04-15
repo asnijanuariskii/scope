@@ -36,7 +36,7 @@ export default function UsersPage() {
     <>
       <div className="ads-card">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-N-30">
+        <div className="flex items-center justify-between pb-4">
           <h1 className="text-heading-lg text-N-800">User Management</h1>
           <button onClick={() => setOpen(true)} className="ads-btn">
             <IconPlus size={16} stroke={2} /> Tambah User
