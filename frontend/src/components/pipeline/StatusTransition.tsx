@@ -1,6 +1,6 @@
 import React from 'react';
 import { PipelineStatus } from '../../types';
-import Select from '../shared/Select';
+import { Select } from '../shared';
 
 const STATUS_TRANSITIONS: Record<PipelineStatus, PipelineStatus[]> = {
   [PipelineStatus.NEW_LEAD]: [PipelineStatus.CONTACTED],
@@ -30,37 +30,15 @@ interface StatusTransitionProps {
   disabled?: boolean;
 }
 
-export default function StatusTransition({
-  currentStatus,
-  onStatusChange,
-  disabled = false,
-}: StatusTransitionProps) {
+export default function StatusTransition({ currentStatus, onStatusChange, disabled = false }: StatusTransitionProps) {
   const validNextStatuses = STATUS_TRANSITIONS[currentStatus] ?? [];
+  const options = validNextStatuses.map((s) => ({ value: s, label: STATUS_LABELS[s] }));
 
-  const options = validNextStatuses.map((s) => ({
-    value: s,
-    label: STATUS_LABELS[s],
-  }));
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    if (value) {
-      onStatusChange(value as PipelineStatus);
-    }
-  };
-
-  if (validNextStatuses.length === 0) {
-    return null;
-  }
+  if (validNextStatuses.length === 0) return null;
 
   return (
-    <Select
-      label="Update Status"
-      options={options}
-      placeholder="— Pilih status —"
-      onChange={handleChange}
-      disabled={disabled}
-      value=""
-    />
+    <Select label="Update Status" options={options} placeholder="— Pilih status —"
+      onChange={(e) => { if (e.target.value) onStatusChange(e.target.value as PipelineStatus); }}
+      disabled={disabled} value="" />
   );
 }

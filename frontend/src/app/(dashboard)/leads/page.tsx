@@ -32,21 +32,21 @@ export default function LeadsPage() {
     <>
       <div className="flex items-center justify-between mb-6">
         <div />
-        <button className="flex items-center gap-1.5 bg-brand text-white font-semibold text-sm py-2.5 px-5 rounded-full hover:bg-brand-dark transition-colors">
-          <IconPlus size={16} stroke={2} /> Add Lead
+        <button className="m3-fab-extended h-10">
+          <IconPlus size={18} stroke={2} /> Add Lead
         </button>
       </div>
 
       <LeadFilters filters={filters} onFilterChange={handleFilterChange} tipeOptions={tipeOptions} />
 
-      {isLoading && <p className="text-center text-n-600 py-12">Memuat data...</p>}
-      {error && <p className="text-r-400 bg-r-100 p-4 rounded-lg">Gagal memuat data Lead.</p>}
+      {isLoading && <p className="text-center text-on-surface-variant py-12">Memuat data...</p>}
+      {error && <p className="text-error bg-error-container p-4 rounded-md">Gagal memuat data Lead.</p>}
 
       {data && (
         <>
           <LeadTable leads={data.data} onRowClick={handleRowClick} startIndex={startIndex} />
           <div className="flex items-center justify-between mt-3">
-            <span className="text-xs text-n-600">
+            <span className="text-body-sm text-on-surface-variant">
               {data.total > 0 ? `${startIndex + 1} to ${Math.min(startIndex + (filters.limit ?? 10), data.total)} of ${data.total} entries` : '0 entries'}
             </span>
             <Pagination currentPage={data.page} totalPages={data.totalPages} onPageChange={handlePageChange} />

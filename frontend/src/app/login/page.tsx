@@ -31,21 +31,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white rounded-2xl shadow-card p-8 w-[400px]">
-        <h1 className="text-2xl font-bold text-center mb-6">SCO Lead Management</h1>
-        {error && <div className="text-sm text-r-400 bg-r-100 p-3 rounded-lg mb-4" role="alert">{error}</div>}
+    <div className="flex items-center justify-center min-h-screen bg-surface">
+      <div className="m3-card-elevated p-8 w-[400px] rounded-xl shadow-elevation-2">
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-primary-on font-bold text-title-lg">S</div>
+          <h1 className="text-headline-sm font-semibold text-on-surface">SCO Lead<br/>Management</h1>
+        </div>
+
+        {error && (
+          <div className="text-body-sm text-error bg-error-container p-3 rounded-md mb-4" role="alert">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
-          <label className="block text-xs text-n-600 mb-1">Employee ID</label>
+          <label className="block text-label-md text-on-surface-variant mb-1.5">Employee ID</label>
           <input
-            className="w-full border border-n-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-b-400 focus:ring-2 focus:ring-b-100 mb-4"
-            value={employeeId} onChange={(e) => setEmployeeId(e.target.value)}
-            required placeholder="Masukkan Employee ID"
+            className="m3-input mb-5"
+            value={employeeId}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            required
+            placeholder="Masukkan Employee ID"
           />
-          <button
-            type="submit" disabled={loading}
-            className="w-full bg-brand text-white font-semibold py-2.5 rounded-lg hover:bg-brand-dark disabled:opacity-40 transition-colors"
-          >
+          <button type="submit" disabled={loading} className="m3-btn-filled w-full">
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>

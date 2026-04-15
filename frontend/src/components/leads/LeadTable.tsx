@@ -11,27 +11,32 @@ function latestStatus(l: Lead): PipelineStatus | null {
 }
 
 export default function LeadTable({ leads, onRowClick, startIndex = 0 }: Props) {
-  if (!leads.length) return <p className="text-center text-n-600 py-12">Tidak ada data Lead ditemukan.</p>;
+  if (!leads.length) return <p className="text-center text-on-surface-variant py-12">Tidak ada data Lead ditemukan.</p>;
 
   return (
-    <div className="bg-white rounded-xl shadow-card overflow-hidden">
-      <table className="w-full text-sm">
-        <thead><tr className="border-b border-n-200 text-xs text-n-600 uppercase tracking-wide">
-          <th className="py-4 px-4 text-center w-12">NO</th><th className="py-4 px-4 text-left">TIPE</th><th className="py-4 px-4 text-left">NAMA EO/MITRA</th><th className="py-4 px-4 text-left">ALAMAT</th><th className="py-4 px-4 text-left">PIC</th><th className="py-4 px-4 text-left">STATUS</th><th className="py-4 px-4 w-12"></th>
+    <div className="m3-card overflow-hidden">
+      <table className="m3-table">
+        <thead><tr>
+          <th className="text-center w-12">NO</th><th>TIPE</th><th>NAMA EO/MITRA</th><th>ALAMAT</th><th>PIC</th><th>STATUS</th><th className="w-12"></th>
         </tr></thead>
         <tbody>
           {leads.map((l, i) => {
             const s = latestStatus(l);
             const pic = l.assignments?.find((a) => a.isActive)?.pic;
             return (
-              <tr key={l.id} onClick={() => onRowClick(l.id)} className="border-b border-n-100 cursor-pointer hover:bg-n-100 transition-colors">
-                <td className="py-4 px-4 text-center text-n-600">{startIndex + i + 1}</td>
-                <td className="py-4 px-4">{l.tipe?.nama ?? '-'}</td>
-                <td className="py-4 px-4 font-semibold">{l.namaEo}</td>
-                <td className="py-4 px-4 max-w-[180px] truncate">{l.alamat}</td>
-                <td className="py-4 px-4">{pic ? <><div className="font-semibold">{pic.nama}</div>{pic.phoneNumber && <div className="text-xs text-n-600">{pic.phoneNumber}</div>}</> : '-'}</td>
-                <td className="py-4 px-4">{s ? <StatusBadge status={s} /> : '-'}</td>
-                <td className="py-4 px-4 text-center"><button onClick={(e) => { e.stopPropagation(); onRowClick(l.id); }} className="text-n-400 hover:text-n-800 p-1 rounded hover:bg-n-100"><IconDots size={18} stroke={1.5} /></button></td>
+              <tr key={l.id} onClick={() => onRowClick(l.id)} className="cursor-pointer">
+                <td className="text-center text-on-surface-variant">{startIndex + i + 1}</td>
+                <td>{l.tipe?.nama ?? '-'}</td>
+                <td className="font-semibold">{l.namaEo}</td>
+                <td className="max-w-[180px] truncate">{l.alamat}</td>
+                <td>{pic ? <><div className="font-semibold">{pic.nama}</div>{pic.phoneNumber && <div className="text-body-sm text-on-surface-variant">{pic.phoneNumber}</div>}</> : '-'}</td>
+                <td>{s ? <StatusBadge status={s} /> : '-'}</td>
+                <td className="text-center">
+                  <button onClick={(e) => { e.stopPropagation(); onRowClick(l.id); }}
+                    className="text-on-surface-variant hover:text-on-surface p-1.5 rounded-full hover:bg-on-surface/8 transition-colors">
+                    <IconDots size={18} stroke={1.5} />
+                  </button>
+                </td>
               </tr>
             );
           })}

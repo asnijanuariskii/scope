@@ -34,29 +34,32 @@ export default function UsersPage() {
   return (
     <>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold">User Management</h1>
-        <button onClick={() => setOpen(true)} className="flex items-center gap-1.5 bg-brand text-white font-semibold text-sm py-2.5 px-5 rounded-full hover:bg-brand-dark transition-colors">
-          <IconPlus size={16} stroke={2} /> Tambah User
+        <h1 className="text-headline-sm font-semibold text-on-surface">User Management</h1>
+        <button onClick={() => setOpen(true)} className="m3-fab-extended h-10">
+          <IconPlus size={18} stroke={2} /> Tambah User
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-card overflow-hidden">
-        <table className="w-full text-sm">
-          <thead><tr className="border-b border-n-200 text-xs text-n-600 uppercase tracking-wide">
-            <th className="py-4 px-4 text-center w-12">NO</th><th className="py-4 px-4 text-left">Nama</th><th className="py-4 px-4 text-left">Employee ID</th><th className="py-4 px-4 text-left">No. Telepon</th><th className="py-4 px-4 text-left">Role</th><th className="py-4 px-4 text-center">Aksi</th>
+      <div className="m3-card overflow-hidden">
+        <table className="m3-table">
+          <thead><tr>
+            <th className="text-center w-12">NO</th><th>Nama</th><th>Employee ID</th><th>No. Telepon</th><th>Role</th><th className="text-center">Aksi</th>
           </tr></thead>
           <tbody>
-            {isLoading && <tr><td colSpan={6} className="py-12 text-center text-n-600">Memuat...</td></tr>}
-            {!isLoading && !active.length && <tr><td colSpan={6} className="py-12 text-center text-n-600">Belum ada user.</td></tr>}
+            {isLoading && <tr><td colSpan={6} className="py-12 text-center text-on-surface-variant">Memuat...</td></tr>}
+            {!isLoading && !active.length && <tr><td colSpan={6} className="py-12 text-center text-on-surface-variant">Belum ada user.</td></tr>}
             {active.map((u, i) => (
-              <tr key={u.id} className="border-b border-n-100 hover:bg-n-100 transition-colors">
-                <td className="py-4 px-4 text-center text-n-600">{i + 1}</td>
-                <td className="py-4 px-4 font-semibold">{u.nama}</td>
-                <td className="py-4 px-4">{u.employeeId}</td>
-                <td className="py-4 px-4">{u.phoneNumber}</td>
-                <td className="py-4 px-4"><span className="bg-b-100 text-b-400 text-xs font-semibold px-2.5 py-0.5 rounded">{u.role}</span></td>
-                <td className="py-4 px-4 text-center">
-                  <button onClick={() => { if (confirm(`Hapus "${u.nama}"?`)) deleteMut.mutate(u.id); }} className="text-xs font-semibold text-r-400 bg-r-100 px-3 py-1 rounded hover:bg-r-400 hover:text-white transition-colors">Hapus</button>
+              <tr key={u.id}>
+                <td className="text-center text-on-surface-variant">{i + 1}</td>
+                <td className="font-semibold">{u.nama}</td>
+                <td>{u.employeeId}</td>
+                <td>{u.phoneNumber}</td>
+                <td><span className="m3-badge bg-primary-container text-primary-on-container">{u.role}</span></td>
+                <td className="text-center">
+                  <button onClick={() => { if (confirm(`Hapus "${u.nama}"?`)) deleteMut.mutate(u.id); }}
+                    className="m3-btn-text text-error h-8 px-3 text-label-md">
+                    Hapus
+                  </button>
                 </td>
               </tr>
             ))}
@@ -65,23 +68,26 @@ export default function UsersPage() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={() => setOpen(false)}>
-          <div className="bg-white rounded-xl p-6 w-[440px] shadow-overlay" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-lg font-bold mb-4">Tambah User Baru</h2>
+        <div className="m3-dialog-overlay" onClick={() => setOpen(false)}>
+          <div className="m3-dialog w-[440px]" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-headline-sm font-semibold text-on-surface mb-6">Tambah User Baru</h2>
             <form onSubmit={(e) => { e.preventDefault(); createMut.mutate(form); }}>
               <Field label="Nama" value={form.nama} onChange={(v) => setForm({ ...form, nama: v })} />
               <Field label="Employee ID" value={form.employee_id} onChange={(v) => setForm({ ...form, employee_id: v })} />
               <Field label="No. Telepon" value={form.phone_number} onChange={(v) => setForm({ ...form, phone_number: v })} />
-              <label className="block text-xs text-n-600 mb-1">Role</label>
-              <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as Role | '' })} className="w-full border border-n-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-b-400 focus:ring-2 focus:ring-b-100 mb-4 appearance-none">
+              <label className="block text-label-md text-on-surface-variant mb-1.5">Role</label>
+              <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as Role | '' })}
+                className="m3-select mb-5">
                 <option value="">— Pilih Role —</option>
                 <option value="SUPERADMIN">Superadmin</option>
                 <option value="SUPERIOR">Superior</option>
                 <option value="PIC">PIC</option>
               </select>
               <div className="flex justify-end gap-2 mt-2">
-                <button type="button" onClick={() => setOpen(false)} className="px-4 py-2 text-sm border border-n-200 rounded-lg hover:bg-n-100 transition-colors">Batal</button>
-                <button type="submit" disabled={createMut.isPending} className="px-4 py-2 text-sm bg-brand text-white font-semibold rounded-lg hover:bg-brand-dark disabled:opacity-40 transition-colors">{createMut.isPending ? 'Saving...' : 'Simpan'}</button>
+                <button type="button" onClick={() => setOpen(false)} className="m3-btn-text">Batal</button>
+                <button type="submit" disabled={createMut.isPending} className="m3-btn-filled">
+                  {createMut.isPending ? 'Saving...' : 'Simpan'}
+                </button>
               </div>
             </form>
           </div>
@@ -94,8 +100,8 @@ export default function UsersPage() {
 function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <>
-      <label className="block text-xs text-n-600 mb-1">{label}</label>
-      <input value={value} onChange={(e) => onChange(e.target.value)} className="w-full border border-n-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-b-400 focus:ring-2 focus:ring-b-100 mb-4" />
+      <label className="block text-label-md text-on-surface-variant mb-1.5">{label}</label>
+      <input value={value} onChange={(e) => onChange(e.target.value)} className="m3-input mb-5" />
     </>
   );
 }

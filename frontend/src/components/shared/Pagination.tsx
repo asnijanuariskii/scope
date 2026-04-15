@@ -14,14 +14,24 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pr
   if (totalPages <= 1) return null;
   return (
     <nav className="flex items-center gap-1" aria-label="Pagination">
-      <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} className="w-8 h-8 flex items-center justify-center rounded text-sm border border-n-200 hover:bg-n-100 disabled:opacity-40 disabled:cursor-not-allowed">‹</button>
+      <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)}
+        className="w-9 h-9 flex items-center justify-center rounded-full text-body-md text-on-surface-variant hover:bg-on-surface/8 disabled:opacity-38 disabled:cursor-not-allowed transition-colors">
+        ‹
+      </button>
       {pages(currentPage, totalPages).map((p, i) =>
-        p === '...' ? <span key={`e${i}`} className="px-1 text-n-400">…</span> : (
+        p === '...' ? <span key={`e${i}`} className="px-1 text-on-surface-variant">…</span> : (
           <button key={p} onClick={() => onPageChange(p)} aria-current={p === currentPage ? 'page' : undefined}
-            className={`w-8 h-8 flex items-center justify-center rounded text-sm ${p === currentPage ? 'bg-brand text-white' : 'border border-n-200 hover:bg-n-100'}`}>{p}</button>
+            className={`w-9 h-9 flex items-center justify-center rounded-full text-body-md transition-colors ${
+              p === currentPage
+                ? 'bg-primary text-primary-on font-medium'
+                : 'text-on-surface-variant hover:bg-on-surface/8'
+            }`}>{p}</button>
         )
       )}
-      <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} className="w-8 h-8 flex items-center justify-center rounded text-sm border border-n-200 hover:bg-n-100 disabled:opacity-40 disabled:cursor-not-allowed">›</button>
+      <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)}
+        className="w-9 h-9 flex items-center justify-center rounded-full text-body-md text-on-surface-variant hover:bg-on-surface/8 disabled:opacity-38 disabled:cursor-not-allowed transition-colors">
+        ›
+      </button>
     </nav>
   );
 }

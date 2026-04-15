@@ -7,48 +7,6 @@ interface ActivityListProps {
   onEdit?: (activity: Activity) => void;
 }
 
-const tableStyle: React.CSSProperties = {
-  width: '100%',
-  borderCollapse: 'collapse',
-  background: '#fff',
-  borderRadius: '8px',
-  overflow: 'hidden',
-  border: '1px solid #e5e7eb',
-};
-
-const thStyle: React.CSSProperties = {
-  padding: '12px 16px',
-  textAlign: 'left',
-  fontSize: '13px',
-  fontWeight: 600,
-  color: '#6b7280',
-  background: '#f9fafb',
-  borderBottom: '1px solid #e5e7eb',
-};
-
-const tdStyle: React.CSSProperties = {
-  padding: '12px 16px',
-  fontSize: '14px',
-  color: '#111827',
-  borderBottom: '1px solid #f3f4f6',
-};
-
-const linkStyle: React.CSSProperties = {
-  color: '#2563eb',
-  cursor: 'pointer',
-  background: 'none',
-  border: 'none',
-  fontSize: '13px',
-  fontWeight: 500,
-  padding: 0,
-};
-
-const disabledLinkStyle: React.CSSProperties = {
-  ...linkStyle,
-  color: '#9ca3af',
-  cursor: 'not-allowed',
-};
-
 const TYPE_LABELS: Record<ActivityType, string> = {
   CALL: 'Call',
   CHAT: 'Chat',
@@ -56,32 +14,20 @@ const TYPE_LABELS: Record<ActivityType, string> = {
 };
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('id-ID', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
+  return new Date(iso).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 export default function ActivityList({ activities, currentUserId, onEdit }: ActivityListProps) {
   if (activities.length === 0) {
-    return (
-      <div style={{ padding: '24px', textAlign: 'center', color: '#6b7280' }}>
-        Belum ada activity.
-      </div>
-    );
+    return <div className="py-6 text-center text-on-surface-variant">Belum ada activity.</div>;
   }
 
   return (
-    <table style={tableStyle}>
+    <table className="m3-table">
       <thead>
         <tr>
-          <th style={thStyle}>Tipe</th>
-          <th style={thStyle}>Notes</th>
-          <th style={thStyle}>Follow-up Date</th>
-          <th style={thStyle}>Dibuat Oleh</th>
-          <th style={thStyle}>Evidence</th>
-          {onEdit && <th style={thStyle}>Aksi</th>}
+          <th>Tipe</th><th>Notes</th><th>Follow-up Date</th><th>Dibuat Oleh</th><th>Evidence</th>
+          {onEdit && <th>Aksi</th>}
         </tr>
       </thead>
       <tbody>
@@ -89,35 +35,24 @@ export default function ActivityList({ activities, currentUserId, onEdit }: Acti
           const isOwner = activity.createdBy === currentUserId;
           return (
             <tr key={activity.id}>
-              <td style={tdStyle}>{TYPE_LABELS[activity.activityType]}</td>
-              <td style={{ ...tdStyle, maxWidth: '300px', whiteSpace: 'pre-wrap' }}>
-                {activity.notes}
-              </td>
-              <td style={tdStyle}>{formatDate(activity.nextFollowUpDate)}</td>
-              <td style={tdStyle}>{activity.creator?.nama ?? activity.createdBy}</td>
-              <td style={tdStyle}>
+              <td><span className="m3-badge bg-primary-container text-primary-on-container">{TYPE_LABELS[activity.activityType]}</span></td>
+              <td className="max-w-[300px] whitespace-pre-wrap">{activity.notes}</td>
+              <td>{formatDate(activity.nextFollowUpDate)}</td>
+              <td>{activity.creator?.nama ?? activity.createdBy}</td>
+              <td>
                 {activity.evidencePath ? (
-                  <a
-                    href={`/api/evidence/${activity.evidencePath}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={linkStyle}
-                  >
-                    Lihat
-                  </a>
+                  <a href={`/api/evidence/${activity.evidencePath}`} target="_blank" rel="noopener noreferrer" className="text-primary text-label-md font-medium">Lihat</a>
                 ) : (
-                  <span style={{ color: '#9ca3af' }}>—</span>
+                  <span className="text-on-surface-variant">—</span>
                 )}
               </td>
               {onEdit && (
-                <td style={tdStyle}>
-                  <button
-                    type="button"
-                    style={isOwner ? linkStyle : disabledLinkStyle}
+                <td>
+                  <button type="button"
+                    className={`m3-btn-text h-8 px-2 text-label-md ${isOwner ? 'text-primary' : 'text-on-surface/38 cursor-not-allowed'}`}
                     disabled={!isOwner}
                     onClick={() => isOwner && onEdit(activity)}
-                    title={isOwner ? 'Edit activity' : 'Hanya pemilik yang dapat mengedit'}
-                  >
+                    title={isOwner ? 'Edit activity' : 'Hanya pemilik yang dapat mengedit'}>
                     Edit
                   </button>
                 </td>

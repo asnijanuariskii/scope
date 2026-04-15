@@ -16,21 +16,23 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between px-6 pt-6 pb-4">
       <div>
-        <p className="text-xs text-n-600">Dashboard › {title}{isDetail ? ' › Detail' : ''}</p>
-        <h1 className="text-xl font-bold">{isDetail ? 'Detail' : title}</h1>
+        <p className="text-body-sm text-on-surface-variant">Dashboard › {title}{isDetail ? ' › Detail' : ''}</p>
+        <h1 className="text-headline-sm font-semibold text-on-surface">{isDetail ? 'Detail' : title}</h1>
       </div>
       <div className="flex items-center gap-4">
         {user && (
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-n-200 flex items-center justify-center text-xs font-bold text-n-600">{user.employeeId.slice(0, 2)}</div>
+            <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-label-lg font-semibold text-primary-on-container">
+              {user.employeeId.slice(0, 2)}
+            </div>
             <div>
-              <p className="text-sm font-semibold">Hello, {user.employeeId}</p>
-              <p className="text-xs text-n-600">{user.role}</p>
+              <p className="text-title-sm font-medium text-on-surface">Hello, {user.employeeId}</p>
+              <p className="text-body-sm text-on-surface-variant">{user.role}</p>
             </div>
           </div>
         )}
-        <button onClick={logout} className="flex items-center gap-1.5 text-sm border border-n-200 rounded-lg px-3 py-1.5 hover:bg-n-100 transition-colors">
-          <IconLogout size={16} stroke={1.5} /> Logout
+        <button onClick={logout} className="m3-btn-outlined h-9 px-4 text-label-md">
+          <IconLogout size={18} stroke={1.5} /> Logout
         </button>
       </div>
     </header>

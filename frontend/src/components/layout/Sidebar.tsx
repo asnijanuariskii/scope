@@ -17,29 +17,33 @@ export default function Sidebar() {
   let lastSection = '';
 
   return (
-    <nav className="w-[240px] bg-white rounded-2xl shadow-card m-4 p-6 flex flex-col sticky top-4 h-[calc(100vh-32px)] overflow-y-auto">
-      <div className="flex items-center gap-2 mb-8">
-        <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-bold text-sm">S</div>
-        <div className="font-bold text-sm leading-tight">SCO Lead<br/>Management</div>
+    <nav className="w-[280px] bg-surface-container-low rounded-r-lg m-0 py-7 px-3 flex flex-col sticky top-0 h-screen overflow-y-auto border-r border-outline-variant/50">
+      <div className="flex items-center gap-3 mb-7 px-4">
+        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-on font-bold text-title-md">S</div>
+        <div className="text-title-md font-semibold text-on-surface leading-tight">SCO Lead<br/>Management</div>
       </div>
 
-      {links.map((link) => {
-        if (!user || !link.roles.includes(user.role)) return null;
-        const active = pathname.startsWith(link.href);
-        const showSection = link.section && link.section !== lastSection;
-        if (link.section) lastSection = link.section;
-        const Icon = link.icon;
+      <div className="flex flex-col gap-0.5">
+        {links.map((link) => {
+          if (!user || !link.roles.includes(user.role)) return null;
+          const active = pathname.startsWith(link.href);
+          const showSection = link.section && link.section !== lastSection;
+          if (link.section) lastSection = link.section;
+          const Icon = link.icon;
 
-        return (
-          <div key={link.href}>
-            {showSection && <div className="text-[10px] font-bold text-n-400 uppercase tracking-widest mt-4 mb-2 px-3">{link.section}</div>}
-            <Link href={link.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors mb-0.5 ${active ? 'bg-brand-light text-brand font-semibold' : 'text-n-600 hover:bg-n-100 hover:text-n-800'}`}>
-              <Icon size={20} stroke={1.5} /> {link.label}
-            </Link>
-          </div>
-        );
-      })}
+          return (
+            <div key={link.href}>
+              {showSection && (
+                <div className="text-label-sm text-on-surface-variant uppercase tracking-widest mt-5 mb-2 px-4">{link.section}</div>
+              )}
+              <Link href={link.href}
+                className={active ? 'm3-nav-item-active' : 'm3-nav-item'}>
+                <Icon size={24} stroke={1.5} /> {link.label}
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </nav>
   );
 }

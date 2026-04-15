@@ -15,19 +15,19 @@ export default function LeadFilters({ filters, onFilterChange, tipeOptions = [] 
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-3 bg-white rounded-xl shadow-card p-4 mb-4">
+    <div className="flex flex-wrap items-center gap-3 m3-card p-4 mb-4">
       <div className="relative">
-        <IconSearch size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-n-400" />
+        <IconSearch size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" />
         <input placeholder="Cari Nama EO..." value={filters.search ?? ''} onChange={(e) => update({ search: e.target.value })}
-          className="pl-9 pr-3 py-2 text-sm border border-n-200 rounded-full outline-none focus:border-b-400 focus:ring-2 focus:ring-b-100 w-52" />
+          className="pl-10 pr-4 py-2.5 text-body-md border border-outline rounded-full outline-none focus:border-primary focus:border-2 w-56 bg-transparent text-on-surface placeholder:text-on-surface-variant" />
       </div>
       <select value={filters.status ?? ''} onChange={(e) => update({ status: e.target.value })}
-        className="text-sm border border-n-200 rounded-full px-3 py-2 outline-none focus:border-b-400 appearance-none bg-white pr-8">
+        className="text-body-md border border-outline rounded-full px-4 py-2.5 outline-none focus:border-primary appearance-none bg-transparent text-on-surface pr-8 cursor-pointer">
         <option value="">Semua Status</option>
         {statusOpts.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
       <select value={filters.tipe_id ?? ''} onChange={(e) => update({ tipe_id: e.target.value })}
-        className="text-sm border border-n-200 rounded-full px-3 py-2 outline-none focus:border-b-400 appearance-none bg-white pr-8">
+        className="text-body-md border border-outline rounded-full px-4 py-2.5 outline-none focus:border-primary appearance-none bg-transparent text-on-surface pr-8 cursor-pointer">
         <option value="">Semua Tipe</option>
         {tipeOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>

@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from '../shared';
 
-export interface ContactFormData {
-  nama: string;
-  noTelp: string;
-  jabatan: string;
-}
+export interface ContactFormData { nama: string; noTelp: string; jabatan: string; }
 
 interface ContactFormProps {
   initialData?: ContactFormData;
@@ -14,33 +10,13 @@ interface ContactFormProps {
   loading?: boolean;
 }
 
-const formStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4px',
-};
-
-const actionsStyle: React.CSSProperties = {
-  display: 'flex',
-  gap: '8px',
-  marginTop: '8px',
-};
-
 const emptyForm: ContactFormData = { nama: '', noTelp: '', jabatan: '' };
 
-export default function ContactForm({
-  initialData,
-  onSubmit,
-  onCancel,
-  loading = false,
-}: ContactFormProps) {
+export default function ContactForm({ initialData, onSubmit, onCancel, loading = false }: ContactFormProps) {
   const [form, setForm] = useState<ContactFormData>(initialData ?? emptyForm);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
 
-  useEffect(() => {
-    setForm(initialData ?? emptyForm);
-    setErrors({});
-  }, [initialData]);
+  useEffect(() => { setForm(initialData ?? emptyForm); setErrors({}); }, [initialData]);
 
   function validate(): boolean {
     const next: typeof errors = {};
@@ -53,54 +29,24 @@ export default function ContactForm({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (validate()) {
-      onSubmit({
-        nama: form.nama.trim(),
-        noTelp: form.noTelp.trim(),
-        jabatan: form.jabatan.trim(),
-      });
-    }
+    if (validate()) onSubmit({ nama: form.nama.trim(), noTelp: form.noTelp.trim(), jabatan: form.jabatan.trim() });
   }
 
   function handleChange(field: keyof ContactFormData) {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
-      setForm((prev) => ({ ...prev, [field]: e.target.value }));
-      if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+      setForm((p) => ({ ...p, [field]: e.target.value }));
+      if (errors[field]) setErrors((p) => ({ ...p, [field]: undefined }));
     };
   }
 
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
-      <Input
-        label="Nama"
-        value={form.nama}
-        onChange={handleChange('nama')}
-        error={errors.nama}
-        placeholder="Nama contact person"
-      />
-      <Input
-        label="No. Telp"
-        value={form.noTelp}
-        onChange={handleChange('noTelp')}
-        error={errors.noTelp}
-        placeholder="Nomor telepon"
-      />
-      <Input
-        label="Jabatan"
-        value={form.jabatan}
-        onChange={handleChange('jabatan')}
-        error={errors.jabatan}
-        placeholder="Jabatan"
-      />
-      <div style={actionsStyle}>
-        <Button type="submit" loading={loading}>
-          {initialData ? 'Simpan' : 'Tambah'}
-        </Button>
-        {onCancel && (
-          <Button type="button" variant="secondary" onClick={onCancel}>
-            Batal
-          </Button>
-        )}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+      <Input label="Nama" value={form.nama} onChange={handleChange('nama')} error={errors.nama} placeholder="Nama contact person" />
+      <Input label="No. Telp" value={form.noTelp} onChange={handleChange('noTelp')} error={errors.noTelp} placeholder="Nomor telepon" />
+      <Input label="Jabatan" value={form.jabatan} onChange={handleChange('jabatan')} error={errors.jabatan} placeholder="Jabatan" />
+      <div className="flex gap-2 mt-2">
+        <Button type="submit" loading={loading}>{initialData ? 'Simpan' : 'Tambah'}</Button>
+        {onCancel && <Button type="button" variant="secondary" onClick={onCancel}>Batal</Button>}
       </div>
     </form>
   );
