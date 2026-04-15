@@ -1175,6 +1175,9 @@ video {
   --tw-text-opacity: 1;
   color: rgb(191 38 0 / var(--tw-text-opacity, 1));
 }
+.fixed {
+  position: fixed;
+}
 .absolute {
   position: absolute;
 }
@@ -1195,6 +1198,9 @@ video {
 }
 .z-50 {
   z-index: 50;
+}
+.z-\[9999\] {
+  z-index: 9999;
 }
 .-mb-\[2px\] {
   margin-bottom: -2px;

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 
 interface SelectProps {
@@ -28,7 +29,9 @@ export default function Select({
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const selectId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
   const errorId = error ? `${selectId}-error` : undefined;
@@ -39,13 +42,24 @@ export default function Select({
   // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current && !containerRef.current.contains(e.target as Node) &&
+        listRef.current && !listRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
+
+  // Calculate menu position when opening
+  useEffect(() => {
+    if (isOpen && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setMenuPos({ top: rect.bottom + 4, left: rect.left, width: rect.width });
+    }
+  }, [isOpen]);
 
   // Scroll focused item into view
   useEffect(() => {
@@ -114,6 +128,7 @@ export default function Select({
         {/* Trigger */}
         <button
           type="button"
+          ref={triggerRef}
           id={selectId}
           role="combobox"
           aria-expanded={isOpen}
@@ -137,13 +152,14 @@ export default function Select({
           <ChevronIcon size={16} className="text-N-300 shrink-0 ml-2" stroke={2} />
         </button>
 
-        {/* Menu */}
-        {isOpen && (
+        {/* Menu (portaled to body to avoid overflow clipping) */}
+        {isOpen && createPortal(
           <ul
             ref={listRef}
             id={listboxId}
             role="listbox"
-            className="absolute z-50 mt-1 w-full bg-white border border-N-40 rounded-md shadow-overlay max-h-[240px] overflow-y-auto py-1"
+            style={{ position: 'fixed', top: menuPos.top, left: menuPos.left, width: menuPos.width }}
+            className="z-[9999] bg-white border border-N-40 rounded-md shadow-overlay max-h-[240px] overflow-y-auto py-1"
           >
             {options.length === 0 && (
               <li className="px-3 py-2 text-body-md text-N-200">Tidak ada opsi</li>
@@ -168,7 +184,8 @@ export default function Select({
                 </li>
               );
             })}
-          </ul>
+          </ul>,
+          document.body,
         )}
       </div>
       {error && (
