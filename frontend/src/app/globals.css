@@ -121,7 +121,7 @@
   }
 
   .ads-table thead tr {
-    @apply border-b-2 border-N-40;
+    @apply border-b border-N-40;
   }
 
   .ads-table th {
@@ -129,7 +129,7 @@
   }
 
   .ads-table tbody tr {
-    @apply border-b border-N-30 transition-colors duration-100;
+    @apply border-b border-N-30 transition-colors duration-100 last:border-b-0;
   }
 
   .ads-table tbody tr:hover {
