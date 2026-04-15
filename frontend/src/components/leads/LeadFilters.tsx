@@ -3,6 +3,7 @@
 import { PipelineStatus } from '@/types';
 import type { LeadFilters as LF } from '@/hooks/useLeads';
 import { IconSearch } from '@tabler/icons-react';
+import Select from '@/components/shared/Select';
 
 interface Props { filters: LF; onFilterChange: (f: LF) => void; tipeOptions?: { value: string; label: string }[]; }
 
@@ -15,22 +16,28 @@ export default function LeadFilters({ filters, onFilterChange, tipeOptions = [] 
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 ads-card p-3 mb-4">
-      <div className="relative">
+    <div className="flex flex-wrap items-end gap-2 ads-card p-3 mb-4">
+      <div className="relative mb-3">
         <IconSearch size={16} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-N-200" />
         <input placeholder="Cari Nama EO..." value={filters.search ?? ''} onChange={(e) => update({ search: e.target.value })}
           className="ads-input pl-8 w-52" />
       </div>
-      <select value={filters.status ?? ''} onChange={(e) => update({ status: e.target.value })}
-        className="ads-select w-auto">
-        <option value="">Semua Status</option>
-        {statusOpts.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-      </select>
-      <select value={filters.tipe_id ?? ''} onChange={(e) => update({ tipe_id: e.target.value })}
-        className="ads-select w-auto">
-        <option value="">Semua Tipe</option>
-        {tipeOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-      </select>
+      <div className="w-48">
+        <Select
+          options={statusOpts}
+          value={filters.status ?? ''}
+          onChange={(e) => update({ status: e.target.value })}
+          placeholder="Semua Status"
+        />
+      </div>
+      <div className="w-48">
+        <Select
+          options={tipeOptions}
+          value={filters.tipe_id ?? ''}
+          onChange={(e) => update({ tipe_id: e.target.value })}
+          placeholder="Semua Tipe"
+        />
+      </div>
     </div>
   );
 }

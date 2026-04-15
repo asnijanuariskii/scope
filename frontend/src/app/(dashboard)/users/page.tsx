@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IconPlus } from '@tabler/icons-react';
 import api from '@/services/api';
 import type { User, Role } from '@/types';
+import Select from '@/components/shared/Select';
 
 interface CreateUserForm { nama: string; employee_id: string; phone_number: string; role: Role | ''; }
 const emptyForm: CreateUserForm = { nama: '', employee_id: '', phone_number: '', role: '' };
@@ -75,14 +76,17 @@ export default function UsersPage() {
               <Field label="Nama" value={form.nama} onChange={(v) => setForm({ ...form, nama: v })} />
               <Field label="Employee ID" value={form.employee_id} onChange={(v) => setForm({ ...form, employee_id: v })} />
               <Field label="No. Telepon" value={form.phone_number} onChange={(v) => setForm({ ...form, phone_number: v })} />
-              <label className="block text-label-md text-N-300 mb-2">Role</label>
-              <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as Role | '' })}
-                className="ads-select mb-4">
-                <option value="">— Pilih Role —</option>
-                <option value="SUPERADMIN">Superadmin</option>
-                <option value="SUPERIOR">Superior</option>
-                <option value="PIC">PIC</option>
-              </select>
+              <Select
+                label="Role"
+                options={[
+                  { value: 'SUPERADMIN', label: 'Superadmin' },
+                  { value: 'SUPERIOR', label: 'Superior' },
+                  { value: 'PIC', label: 'PIC' },
+                ]}
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value as Role | '' })}
+                placeholder="— Pilih Role —"
+              />
               <div className="flex justify-end gap-2 mt-3">
                 <button type="button" onClick={() => setOpen(false)} className="ads-btn-default">Batal</button>
                 <button type="submit" disabled={createMut.isPending} className="ads-btn">
