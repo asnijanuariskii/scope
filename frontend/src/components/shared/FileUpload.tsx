@@ -16,26 +16,21 @@ export default function FileUpload({ label, accept, onChange, error, id }: FileU
   const errorId = error ? `${inputId}-error` : undefined;
 
   return (
-    <div className="mb-4">
-      {label && <label htmlFor={inputId} className="block text-label-md text-on-surface-variant mb-1.5">{label}</label>}
+    <div className="mb-3">
+      {label && <label htmlFor={inputId} className="block text-label-md text-N-300 mb-1">{label}</label>}
       <div
         onClick={() => ref.current?.click()}
-        className="flex items-center gap-3 px-4 py-3 border border-dashed border-outline rounded-md cursor-pointer hover:bg-on-surface/4 transition-colors"
+        className="flex items-center gap-2.5 px-3 py-2.5 border-2 border-dashed border-N-40 rounded-sm cursor-pointer hover:bg-N-10 transition-colors"
       >
-        <IconUpload size={20} className="text-on-surface-variant" />
-        <span className="text-body-md text-on-surface-variant">Klik untuk upload file</span>
+        <IconUpload size={18} className="text-N-200" />
+        <span className="text-body-md text-N-200">Klik untuk upload file</span>
       </div>
       <input
-        ref={ref}
-        id={inputId}
-        type="file"
-        accept={accept}
-        className="hidden"
+        ref={ref} id={inputId} type="file" accept={accept} className="hidden"
         onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-        aria-invalid={!!error}
-        aria-describedby={errorId}
+        aria-invalid={!!error} aria-describedby={errorId}
       />
-      {error && <p id={errorId} className="text-body-sm text-error mt-1" role="alert">{error}</p>}
+      {error && <p id={errorId} className="text-body-sm text-danger mt-1" role="alert">{error}</p>}
     </div>
   );
 }

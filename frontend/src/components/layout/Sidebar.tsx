@@ -17,10 +17,10 @@ export default function Sidebar() {
   let lastSection = '';
 
   return (
-    <nav className="w-[280px] bg-white py-7 px-3 flex flex-col sticky top-0 h-screen overflow-y-auto border-r border-outline-variant">
-      <div className="flex items-center gap-3 mb-7 px-4">
-        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-on font-bold text-title-md">S</div>
-        <div className="text-title-md font-semibold text-on-surface leading-tight">SCO Lead<br/>Management</div>
+    <nav className="w-[240px] bg-white py-6 px-3 flex flex-col sticky top-0 h-screen overflow-y-auto border-r border-N-40 shrink-0">
+      <div className="flex items-center gap-2.5 mb-8 px-3">
+        <div className="w-8 h-8 bg-brand rounded flex items-center justify-center text-white font-bold text-body-md">S</div>
+        <div className="text-heading-xs text-N-800 leading-tight">SCO Lead<br/>Management</div>
       </div>
 
       <div className="flex flex-col gap-0.5">
@@ -34,11 +34,11 @@ export default function Sidebar() {
           return (
             <div key={link.href}>
               {showSection && (
-                <div className="text-label-sm text-on-surface-variant uppercase tracking-widest mt-5 mb-2 px-4">{link.section}</div>
+                <div className="text-label-sm text-N-200 uppercase tracking-widest mt-6 mb-1.5 px-3">{link.section}</div>
               )}
               <Link href={link.href}
-                className={active ? 'm3-nav-item-active' : 'm3-nav-item'}>
-                <Icon size={24} stroke={1.5} /> {link.label}
+                className={active ? 'ads-nav-item-active' : 'ads-nav-item'}>
+                <Icon size={20} stroke={1.5} /> {link.label}
               </Link>
             </div>
           );

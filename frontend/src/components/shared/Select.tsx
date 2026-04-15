@@ -12,15 +12,13 @@ export default function Select({ label, error, options, placeholder, id, classNa
   const errorId = error ? `${selectId}-error` : undefined;
 
   return (
-    <div className="mb-4">
+    <div className="mb-3">
       {label && (
-        <label htmlFor={selectId} className="block text-label-md text-on-surface-variant mb-1.5">
-          {label}
-        </label>
+        <label htmlFor={selectId} className="block text-label-md text-N-300 mb-1">{label}</label>
       )}
       <select
         id={selectId}
-        className={`m3-select ${error ? 'border-error focus:border-error' : ''} ${className ?? ''}`}
+        className={`ads-select ${error ? 'border-danger focus:border-danger' : ''} ${className ?? ''}`}
         aria-invalid={!!error}
         aria-describedby={errorId}
         {...props}
@@ -28,9 +26,7 @@ export default function Select({ label, error, options, placeholder, id, classNa
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
-      {error && (
-        <p id={errorId} className="text-body-sm text-error mt-1" role="alert">{error}</p>
-      )}
+      {error && <p id={errorId} className="text-body-sm text-danger mt-1" role="alert">{error}</p>}
     </div>
   );
 }

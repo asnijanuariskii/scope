@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button } from '../shared';
 
 export interface ContactFormData { nama: string; noTelp: string; jabatan: string; }
-
-interface ContactFormProps {
-  initialData?: ContactFormData;
-  onSubmit: (data: ContactFormData) => void;
-  onCancel?: () => void;
-  loading?: boolean;
-}
-
+interface ContactFormProps { initialData?: ContactFormData; onSubmit: (data: ContactFormData) => void; onCancel?: () => void; loading?: boolean; }
 const emptyForm: ContactFormData = { nama: '', noTelp: '', jabatan: '' };
 
 export default function ContactForm({ initialData, onSubmit, onCancel, loading = false }: ContactFormProps) {
@@ -40,11 +33,11 @@ export default function ContactForm({ initialData, onSubmit, onCancel, loading =
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+    <form onSubmit={handleSubmit}>
       <Input label="Nama" value={form.nama} onChange={handleChange('nama')} error={errors.nama} placeholder="Nama contact person" />
       <Input label="No. Telp" value={form.noTelp} onChange={handleChange('noTelp')} error={errors.noTelp} placeholder="Nomor telepon" />
       <Input label="Jabatan" value={form.jabatan} onChange={handleChange('jabatan')} error={errors.jabatan} placeholder="Jabatan" />
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-3">
         <Button type="submit" loading={loading}>{initialData ? 'Simpan' : 'Tambah'}</Button>
         {onCancel && <Button type="button" variant="secondary" onClick={onCancel}>Batal</Button>}
       </div>

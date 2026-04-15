@@ -14,25 +14,25 @@ export default function Header() {
   const isDetail = parts.length > 1;
 
   return (
-    <header className="flex items-center justify-between px-6 pt-6 pb-4">
+    <header className="flex items-center justify-between px-8 py-5 bg-white border-b border-N-40">
       <div>
-        <p className="text-body-sm text-on-surface-variant">Dashboard › {title}{isDetail ? ' › Detail' : ''}</p>
-        <h1 className="text-headline-sm font-semibold text-on-surface">{isDetail ? 'Detail' : title}</h1>
+        <p className="text-body-sm text-N-200">Dashboard / {title}{isDetail ? ' / Detail' : ''}</p>
+        <h1 className="text-heading-lg text-N-800">{isDetail ? 'Detail' : title}</h1>
       </div>
       <div className="flex items-center gap-4">
         {user && (
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-label-lg font-semibold text-primary-on-container">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-brand-subtler flex items-center justify-center text-label-md font-semibold text-brand-boldest">
               {user.employeeId.slice(0, 2)}
             </div>
             <div>
-              <p className="text-title-sm font-medium text-on-surface">Hello, {user.employeeId}</p>
-              <p className="text-body-sm text-on-surface-variant">{user.role}</p>
+              <p className="text-body-md font-medium text-N-800">{user.employeeId}</p>
+              <p className="text-body-sm text-N-200">{user.role}</p>
             </div>
           </div>
         )}
-        <button onClick={logout} className="m3-btn-outlined h-9 px-4 text-label-md">
-          <IconLogout size={18} stroke={1.5} /> Logout
+        <button onClick={logout} className="ads-btn-default text-body-sm h-8">
+          <IconLogout size={16} stroke={1.5} /> Logout
         </button>
       </div>
     </header>

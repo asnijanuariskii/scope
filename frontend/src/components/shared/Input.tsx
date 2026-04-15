@@ -10,22 +10,20 @@ export default function Input({ label, error, id, className, ...props }: InputPr
   const errorId = error ? `${inputId}-error` : undefined;
 
   return (
-    <div className="mb-4">
+    <div className="mb-3">
       {label && (
-        <label htmlFor={inputId} className="block text-label-md text-on-surface-variant mb-1.5">
-          {label}{props.required && <span className="text-error ml-0.5">*</span>}
+        <label htmlFor={inputId} className="block text-label-md text-N-300 mb-1">
+          {label}{props.required && <span className="text-danger ml-0.5">*</span>}
         </label>
       )}
       <input
         id={inputId}
-        className={`${error ? 'm3-input-error' : 'm3-input'} ${className ?? ''}`}
+        className={`${error ? 'ads-input-error' : 'ads-input'} ${className ?? ''}`}
         aria-invalid={!!error}
         aria-describedby={errorId}
         {...props}
       />
-      {error && (
-        <p id={errorId} className="text-body-sm text-error mt-1" role="alert">{error}</p>
-      )}
+      {error && <p id={errorId} className="text-body-sm text-danger mt-1" role="alert">{error}</p>}
     </div>
   );
 }

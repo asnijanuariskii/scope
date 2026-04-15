@@ -13,12 +13,7 @@ const leadSchema = z.object({
 });
 
 export type LeadFormData = z.infer<typeof leadSchema>;
-
-interface LeadFormProps {
-  initialData?: Partial<LeadFormData>;
-  onSubmit: (data: LeadFormData) => void;
-  loading?: boolean;
-}
+interface LeadFormProps { initialData?: Partial<LeadFormData>; onSubmit: (data: LeadFormData) => void; loading?: boolean; }
 
 export default function LeadForm({ initialData, onSubmit, loading = false }: LeadFormProps) {
   const [form, setForm] = useState<LeadFormData>({
@@ -53,17 +48,15 @@ export default function LeadForm({ initialData, onSubmit, loading = false }: Lea
     onSubmit(result.data);
   };
 
-  const isEdit = !!initialData;
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-1" noValidate>
+    <form onSubmit={handleSubmit} noValidate>
       <Input label="Nama EO" value={form.nama_eo} onChange={(e) => handleChange('nama_eo', e.target.value)} error={errors.nama_eo} required />
       <Select label="Tipe Lead" options={tipeOptions} value={form.tipe_id} onChange={(e) => handleChange('tipe_id', e.target.value)} error={errors.tipe_id} required />
       <Input label="Alamat" value={form.alamat} onChange={(e) => handleChange('alamat', e.target.value)} error={errors.alamat} required />
       <Input label="Speciality" value={form.speciality ?? ''} onChange={(e) => handleChange('speciality', e.target.value)} error={errors.speciality} />
       <Input label="Link Sosmed" value={form.link_sosmed ?? ''} onChange={(e) => handleChange('link_sosmed', e.target.value)} error={errors.link_sosmed} placeholder="https://..." />
-      <div className="flex justify-end gap-2 mt-2">
-        <Button type="submit" loading={loading}>{isEdit ? 'Simpan Perubahan' : 'Buat Lead'}</Button>
+      <div className="flex justify-end gap-2 mt-3">
+        <Button type="submit" loading={loading}>{initialData ? 'Simpan Perubahan' : 'Buat Lead'}</Button>
       </div>
     </form>
   );

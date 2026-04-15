@@ -2,164 +2,138 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply text-body-md text-N-800;
+  }
+}
+
 @layer components {
-  /* ── M3 Filled Button ── */
-  .m3-btn-filled {
-    @apply inline-flex items-center justify-center gap-2 px-6 h-10 rounded-full
-           bg-primary text-primary-on text-label-lg font-medium
-           hover:shadow-elevation-1 active:shadow-none
-           transition-all duration-200;
-  }
-  .m3-btn-filled:disabled {
-    @apply bg-on-surface/[0.12] text-on-surface/[0.38] shadow-none;
+  /* ── ADS Button: Primary (filled) ── */
+  .ads-btn {
+    @apply inline-flex items-center justify-center gap-2 px-3 h-8 rounded-sm
+           bg-brand text-white text-body-md font-medium
+           hover:bg-brand-bold active:bg-brand-bolder
+           disabled:bg-N-40 disabled:text-N-300 disabled:cursor-not-allowed
+           transition-colors duration-100 cursor-pointer;
   }
 
-  /* ── M3 Outlined Button ── */
-  .m3-btn-outlined {
-    @apply inline-flex items-center justify-center gap-2 px-6 h-10 rounded-full
-           border border-outline text-primary text-label-lg font-medium bg-transparent
-           hover:bg-primary/[0.08] active:bg-primary/[0.12]
-           transition-all duration-200;
-  }
-  .m3-btn-outlined:disabled {
-    @apply border-on-surface/[0.12] text-on-surface/[0.38];
+  /* ── ADS Button: Default (subtle) ── */
+  .ads-btn-default {
+    @apply inline-flex items-center justify-center gap-2 px-3 h-8 rounded-sm
+           bg-N-20 text-N-800 text-body-md font-medium
+           hover:bg-N-30 active:bg-N-40
+           disabled:bg-N-20 disabled:text-N-300 disabled:cursor-not-allowed
+           transition-colors duration-100 cursor-pointer;
   }
 
-  /* ── M3 Text Button ── */
-  .m3-btn-text {
-    @apply inline-flex items-center justify-center gap-2 px-3 h-10 rounded-full
-           text-primary text-label-lg font-medium bg-transparent
-           hover:bg-primary/[0.08] active:bg-primary/[0.12]
-           transition-all duration-200;
-  }
-  .m3-btn-text:disabled {
-    @apply text-on-surface/[0.38];
+  /* ── ADS Button: Subtle (text-like) ── */
+  .ads-btn-subtle {
+    @apply inline-flex items-center justify-center gap-2 px-2 h-8 rounded-sm
+           bg-transparent text-N-400 text-body-md font-medium
+           hover:bg-N-20 active:bg-N-30
+           disabled:text-N-300 disabled:cursor-not-allowed
+           transition-colors duration-100 cursor-pointer;
   }
 
-  /* ── M3 Tonal Button ── */
-  .m3-btn-tonal {
-    @apply inline-flex items-center justify-center gap-2 px-6 h-10 rounded-full
-           bg-secondary-container text-secondary-on-container text-label-lg font-medium
-           hover:shadow-elevation-1 active:shadow-none
-           transition-all duration-200;
-  }
-  .m3-btn-tonal:disabled {
-    @apply bg-on-surface/[0.12] text-on-surface/[0.38] shadow-none;
+  /* ── ADS Button: Link ── */
+  .ads-btn-link {
+    @apply inline-flex items-center justify-center gap-1 text-brand text-body-md font-medium
+           bg-transparent hover:underline active:text-brand-bolder
+           disabled:text-N-300 disabled:cursor-not-allowed
+           transition-colors duration-100 cursor-pointer;
   }
 
-  /* ── M3 FAB ── */
-  .m3-fab {
-    @apply inline-flex items-center justify-center gap-3 px-4 h-14 rounded-lg
-           bg-primary text-primary-on shadow-elevation-3
-           hover:shadow-elevation-4 active:shadow-elevation-3
-           transition-all duration-200;
+  /* ── ADS Button: Danger ── */
+  .ads-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-3 h-8 rounded-sm
+           bg-danger text-white text-body-md font-medium
+           hover:bg-danger-bold active:bg-danger-bold
+           disabled:bg-N-40 disabled:text-N-300 disabled:cursor-not-allowed
+           transition-colors duration-100 cursor-pointer;
   }
 
-  .m3-fab-extended {
-    @apply inline-flex items-center justify-center gap-3 px-4 pl-4 pr-5 h-14 rounded-lg
-           bg-primary text-primary-on shadow-elevation-3
-           hover:shadow-elevation-4 active:shadow-elevation-3
-           transition-all duration-200;
+  /* ── ADS Card ── */
+  .ads-card {
+    @apply bg-white rounded-md border border-N-40 overflow-hidden;
   }
 
-  /* ── M3 Card (all cards use outlined style with white bg) ── */
-  .m3-card {
-    @apply bg-white rounded-md border border-outline-variant shadow-none overflow-hidden;
-  }
-
-  .m3-card-elevated {
-    @apply bg-white rounded-md border border-outline-variant shadow-none;
-  }
-
-  .m3-card-filled {
-    @apply bg-white rounded-md border border-outline-variant shadow-none;
-  }
-
-  .m3-card-outlined {
-    @apply bg-white rounded-md border border-outline-variant shadow-none;
-  }
-
-  /* ── M3 Text Field (Outlined) ── */
-  .m3-input {
-    @apply w-full px-4 py-3 text-body-lg text-on-surface bg-transparent
-           border border-outline rounded-xs
+  /* ── ADS Input ── */
+  .ads-input {
+    @apply w-full px-2.5 py-1.5 text-body-md text-N-800 bg-N-10
+           border-2 border-N-40 rounded-sm
            outline-none
-           focus:border-primary focus:border-2 focus:px-[15px]
-           placeholder:text-on-surface-variant
-           transition-colors duration-200;
-  }
-  .m3-input:disabled {
-    @apply border-on-surface/[0.12] text-on-surface/[0.38];
+           focus:bg-white focus:border-brand
+           placeholder:text-N-200
+           disabled:bg-N-20 disabled:text-N-300 disabled:cursor-not-allowed
+           transition-colors duration-100;
   }
 
-  .m3-input-error {
-    @apply w-full px-4 py-3 text-body-lg text-on-surface bg-transparent
-           border border-error rounded-xs
-           outline-none
-           focus:border-error focus:border-2 focus:px-[15px]
-           placeholder:text-on-surface-variant
-           transition-colors duration-200;
+  .ads-input-error {
+    @apply ads-input border-danger focus:border-danger;
   }
 
-  /* ── M3 Select ── */
-  .m3-select {
-    @apply w-full px-4 py-3 text-body-lg text-on-surface bg-transparent
-           border border-outline rounded-xs
-           outline-none appearance-none pr-10 cursor-pointer
-           focus:border-primary focus:border-2 focus:px-[15px]
-           transition-colors duration-200;
+  /* ── ADS Select ── */
+  .ads-select {
+    @apply ads-input appearance-none pr-8 cursor-pointer;
   }
 
-  /* ── M3 Navigation Drawer Item ── */
-  .m3-nav-item {
-    @apply flex items-center gap-3 px-4 py-3 rounded-full text-label-lg
-           text-on-surface-variant
-           hover:bg-on-surface/[0.08]
-           transition-all duration-200;
+  /* ── ADS Navigation Item ── */
+  .ads-nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-sm text-body-md font-medium
+           text-N-400
+           hover:bg-N-20 hover:text-N-800
+           transition-colors duration-100;
   }
 
-  .m3-nav-item-active {
-    @apply flex items-center gap-3 px-4 py-3 rounded-full text-label-lg font-semibold
-           bg-secondary-container text-on-surface
-           transition-all duration-200;
+  .ads-nav-item-active {
+    @apply flex items-center gap-3 px-3 py-2 rounded-sm text-body-md font-medium
+           bg-brand-subtle text-brand-boldest
+           transition-colors duration-100;
   }
 
-  /* ── M3 Badge ── */
-  .m3-badge {
-    @apply inline-flex items-center text-label-sm font-medium px-3 py-0.5 rounded-full;
+  /* ── ADS Badge / Lozenge ── */
+  .ads-lozenge {
+    @apply inline-flex items-center text-label-sm font-semibold uppercase tracking-wide
+           px-1 py-0 rounded-sm;
   }
 
-  /* ── M3 Dialog / Modal ── */
-  .m3-dialog-overlay {
-    @apply fixed inset-0 bg-black/[0.32] flex items-center justify-center z-50;
+  /* ── ADS Dialog / Modal ── */
+  .ads-dialog-overlay {
+    @apply fixed inset-0 bg-N-900/50 flex items-center justify-center z-50;
   }
 
-  .m3-dialog {
-    @apply bg-white rounded-xl p-6 min-w-[280px] max-w-[560px] shadow-elevation-3;
+  .ads-dialog {
+    @apply bg-white rounded-md p-6 min-w-[320px] max-w-[560px] shadow-overlay;
   }
 
-  /* ── M3 Table ── */
-  .m3-table {
+  /* ── ADS Table ── */
+  .ads-table {
     @apply w-full text-body-md;
   }
 
-  .m3-table thead tr {
-    @apply border-b border-outline-variant;
+  .ads-table thead tr {
+    @apply border-b-2 border-N-40;
   }
 
-  .m3-table th {
-    @apply py-3 px-4 text-left text-label-md text-on-surface-variant font-medium uppercase tracking-wide;
+  .ads-table th {
+    @apply py-2 px-3 text-left text-label-md text-N-300 font-semibold uppercase tracking-wide;
   }
 
-  .m3-table tbody tr {
-    @apply border-b border-outline-variant/50 transition-colors;
+  .ads-table tbody tr {
+    @apply border-b border-N-30 transition-colors duration-100;
   }
 
-  .m3-table tbody tr:hover {
-    @apply bg-on-surface/[0.04];
+  .ads-table tbody tr:hover {
+    @apply bg-N-10;
   }
 
-  .m3-table td {
-    @apply py-3.5 px-4 text-on-surface;
+  .ads-table td {
+    @apply py-2.5 px-3 text-N-800;
+  }
+
+  /* ── ADS Section Message ── */
+  .ads-section-error {
+    @apply bg-danger-subtle border-l-[3px] border-danger text-danger-text p-3 rounded-sm text-body-md;
   }
 }

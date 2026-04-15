@@ -13,23 +13,23 @@ function pages(cur: number, total: number): (number | '...')[] {
 export default function Pagination({ currentPage, totalPages, onPageChange }: Props) {
   if (totalPages <= 1) return null;
   return (
-    <nav className="flex items-center gap-1" aria-label="Pagination">
+    <nav className="flex items-center gap-0.5" aria-label="Pagination">
       <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)}
-        className="w-9 h-9 flex items-center justify-center rounded-full text-body-md text-on-surface-variant hover:bg-on-surface/8 disabled:opacity-38 disabled:cursor-not-allowed transition-colors">
+        className="w-8 h-8 flex items-center justify-center rounded-sm text-body-md text-N-400 hover:bg-N-30 disabled:text-N-50 disabled:cursor-not-allowed transition-colors">
         ‹
       </button>
       {pages(currentPage, totalPages).map((p, i) =>
-        p === '...' ? <span key={`e${i}`} className="px-1 text-on-surface-variant">…</span> : (
+        p === '...' ? <span key={`e${i}`} className="px-1 text-N-200">…</span> : (
           <button key={p} onClick={() => onPageChange(p)} aria-current={p === currentPage ? 'page' : undefined}
-            className={`w-9 h-9 flex items-center justify-center rounded-full text-body-md transition-colors ${
+            className={`w-8 h-8 flex items-center justify-center rounded-sm text-body-md transition-colors ${
               p === currentPage
-                ? 'bg-primary text-primary-on font-medium'
-                : 'text-on-surface-variant hover:bg-on-surface/8'
+                ? 'bg-brand text-white font-medium'
+                : 'text-N-400 hover:bg-N-30'
             }`}>{p}</button>
         )
       )}
       <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)}
-        className="w-9 h-9 flex items-center justify-center rounded-full text-body-md text-on-surface-variant hover:bg-on-surface/8 disabled:opacity-38 disabled:cursor-not-allowed transition-colors">
+        className="w-8 h-8 flex items-center justify-center rounded-sm text-body-md text-N-400 hover:bg-N-30 disabled:text-N-50 disabled:cursor-not-allowed transition-colors">
         ›
       </button>
     </nav>

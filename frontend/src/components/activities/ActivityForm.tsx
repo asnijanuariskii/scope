@@ -2,18 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Select, Input, Button } from '../shared';
 import { ActivityType } from '../../types';
 
-export interface ActivityFormData {
-  activityType: ActivityType | '';
-  notes: string;
-  nextFollowUpDate: string;
-}
+export interface ActivityFormData { activityType: ActivityType | ''; notes: string; nextFollowUpDate: string; }
 
-interface ActivityFormProps {
-  initialData?: ActivityFormData;
-  onSubmit: (data: ActivityFormData) => void;
-  onCancel?: () => void;
-  loading?: boolean;
-}
+interface ActivityFormProps { initialData?: ActivityFormData; onSubmit: (data: ActivityFormData) => void; onCancel?: () => void; loading?: boolean; }
 
 const ACTIVITY_TYPE_OPTIONS = [
   { value: ActivityType.CALL, label: 'Call' },
@@ -44,29 +35,25 @@ export default function ActivityForm({ initialData, onSubmit, onCancel, loading 
   }
 
   const notesId = 'activity-notes';
-  const notesErrorId = errors.notes ? `${notesId}-error` : undefined;
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-1" noValidate>
+    <form onSubmit={handleSubmit} noValidate>
       <Select label="Tipe Activity" options={ACTIVITY_TYPE_OPTIONS} value={form.activityType}
         onChange={(e) => { setForm((p) => ({ ...p, activityType: e.target.value as ActivityType | '' })); if (errors.activityType) setErrors((p) => ({ ...p, activityType: undefined })); }}
         error={errors.activityType} placeholder="— Pilih tipe —" />
-
-      <div className="mb-4">
-        <label htmlFor={notesId} className="block text-label-md text-on-surface-variant mb-1.5">Notes</label>
+      <div className="mb-3">
+        <label htmlFor={notesId} className="block text-label-md text-N-300 mb-1">Notes</label>
         <textarea id={notesId}
-          className={`m3-input min-h-[80px] resize-y ${errors.notes ? 'border-error focus:border-error' : ''}`}
+          className={`ads-input min-h-[80px] resize-y ${errors.notes ? 'border-danger focus:border-danger' : ''}`}
           value={form.notes}
           onChange={(e) => { setForm((p) => ({ ...p, notes: e.target.value })); if (errors.notes) setErrors((p) => ({ ...p, notes: undefined })); }}
-          placeholder="Catatan activity" aria-invalid={!!errors.notes} aria-describedby={notesErrorId} />
-        {errors.notes && <p id={notesErrorId} className="text-body-sm text-error mt-1" role="alert">{errors.notes}</p>}
+          placeholder="Catatan activity" aria-invalid={!!errors.notes} />
+        {errors.notes && <p className="text-body-sm text-danger mt-1" role="alert">{errors.notes}</p>}
       </div>
-
       <Input label="Tanggal Follow-up" type="date" value={form.nextFollowUpDate}
         onChange={(e) => { setForm((p) => ({ ...p, nextFollowUpDate: e.target.value })); if (errors.nextFollowUpDate) setErrors((p) => ({ ...p, nextFollowUpDate: undefined })); }}
         error={errors.nextFollowUpDate} />
-
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-3">
         <Button type="submit" loading={loading}>{initialData ? 'Simpan' : 'Tambah Activity'}</Button>
         {onCancel && <Button type="button" variant="secondary" onClick={onCancel}>Batal</Button>}
       </div>

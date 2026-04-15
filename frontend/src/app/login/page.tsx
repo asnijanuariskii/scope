@@ -31,29 +31,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-surface">
-      <div className="m3-card-outlined p-8 w-[400px] rounded-xl">
+    <div className="flex items-center justify-center min-h-screen bg-N-20">
+      <div className="ads-card p-8 w-[400px]">
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-primary-on font-bold text-title-lg">S</div>
-          <h1 className="text-headline-sm font-semibold text-on-surface">SCO Lead<br/>Management</h1>
+          <div className="w-10 h-10 bg-brand rounded flex items-center justify-center text-white font-bold text-heading-md">S</div>
+          <h1 className="text-heading-lg text-N-800">SCO Lead<br/>Management</h1>
         </div>
 
-        {error && (
-          <div className="text-body-sm text-error bg-error-container p-3 rounded-md mb-4" role="alert">
-            {error}
-          </div>
-        )}
+        {error && <div className="ads-section-error mb-4" role="alert">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <label className="block text-label-md text-on-surface-variant mb-1.5">Employee ID</label>
+          <label className="block text-label-md text-N-300 mb-1">Employee ID</label>
           <input
-            className="m3-input mb-5"
+            className="ads-input mb-5"
             value={employeeId}
             onChange={(e) => setEmployeeId(e.target.value)}
             required
             placeholder="Masukkan Employee ID"
           />
-          <button type="submit" disabled={loading} className="m3-btn-filled w-full">
+          <button type="submit" disabled={loading} className="ads-btn w-full h-10">
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
