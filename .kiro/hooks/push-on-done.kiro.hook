@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "name": "Push on Done",
   "description": "Auto-commit and push all changes to GitHub when the agent stops.",
   "version": "1",
