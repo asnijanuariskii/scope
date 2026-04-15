@@ -113,7 +113,7 @@
 
   /* ── ADS Table ── */
   .ads-table {
-    @apply w-full text-body-md;
+    @apply w-full text-body-md border border-N-40 rounded-lg overflow-hidden;
   }
 
   .ads-table thead tr {
