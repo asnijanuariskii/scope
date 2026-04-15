@@ -32,7 +32,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-surface">
-      <div className="m3-card-elevated p-8 w-[400px] rounded-xl shadow-elevation-2">
+      <div className="m3-card-outlined p-8 w-[400px] rounded-xl">
         <div className="flex items-center justify-center gap-3 mb-8">
           <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-primary-on font-bold text-title-lg">S</div>
           <h1 className="text-headline-sm font-semibold text-on-surface">SCO Lead<br/>Management</h1>

@@ -17,7 +17,7 @@ export default function Sidebar() {
   let lastSection = '';
 
   return (
-    <nav className="w-[280px] bg-surface-container-low rounded-r-lg m-0 py-7 px-3 flex flex-col sticky top-0 h-screen overflow-y-auto border-r border-outline-variant/50">
+    <nav className="w-[280px] bg-white py-7 px-3 flex flex-col sticky top-0 h-screen overflow-y-auto border-r border-outline-variant">
       <div className="flex items-center gap-3 mb-7 px-4">
         <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-on font-bold text-title-md">S</div>
         <div className="text-title-md font-semibold text-on-surface leading-tight">SCO Lead<br/>Management</div>

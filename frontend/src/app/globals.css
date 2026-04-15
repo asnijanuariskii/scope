@@ -50,33 +50,33 @@
   /* ── M3 FAB ── */
   .m3-fab {
     @apply inline-flex items-center justify-center gap-3 px-4 h-14 rounded-lg
-           bg-primary-container text-primary-on-container shadow-elevation-3
+           bg-primary text-primary-on shadow-elevation-3
            hover:shadow-elevation-4 active:shadow-elevation-3
            transition-all duration-200;
   }
 
   .m3-fab-extended {
     @apply inline-flex items-center justify-center gap-3 px-4 pl-4 pr-5 h-14 rounded-lg
-           bg-primary-container text-primary-on-container shadow-elevation-3
+           bg-primary text-primary-on shadow-elevation-3
            hover:shadow-elevation-4 active:shadow-elevation-3
            transition-all duration-200;
   }
 
-  /* ── M3 Card ── */
+  /* ── M3 Card (all cards use outlined style with white bg) ── */
   .m3-card {
-    @apply bg-surface-container-low rounded-md shadow-elevation-1 overflow-hidden;
+    @apply bg-white rounded-md border border-outline-variant shadow-none overflow-hidden;
   }
 
   .m3-card-elevated {
-    @apply bg-surface-container-low rounded-md shadow-elevation-1;
+    @apply bg-white rounded-md border border-outline-variant shadow-none;
   }
 
   .m3-card-filled {
-    @apply bg-surface-container-highest rounded-md shadow-none;
+    @apply bg-white rounded-md border border-outline-variant shadow-none;
   }
 
   .m3-card-outlined {
-    @apply bg-surface rounded-md border border-outline-variant shadow-none;
+    @apply bg-white rounded-md border border-outline-variant shadow-none;
   }
 
   /* ── M3 Text Field (Outlined) ── */
@@ -135,7 +135,7 @@
   }
 
   .m3-dialog {
-    @apply bg-surface-container-high rounded-xl p-6 min-w-[280px] max-w-[560px] shadow-elevation-3;
+    @apply bg-white rounded-xl p-6 min-w-[280px] max-w-[560px] shadow-elevation-3;
   }
 
   /* ── M3 Table ── */
