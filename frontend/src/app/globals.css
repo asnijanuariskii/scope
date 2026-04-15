@@ -121,7 +121,7 @@
   }
 
   .ads-table th {
-    @apply py-2 px-3 text-left text-label-md text-N-300 font-semibold uppercase tracking-wide;
+    @apply py-2 px-4 text-left text-label-md text-N-300 font-semibold uppercase tracking-wide;
   }
 
   .ads-table tbody tr {
@@ -133,7 +133,7 @@
   }
 
   .ads-table td {
-    @apply py-2.5 px-3 text-N-800;
+    @apply py-2.5 px-4 text-N-800;
   }
 
   /* ── ADS Section Message ── */

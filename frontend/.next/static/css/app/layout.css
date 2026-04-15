@@ -1078,8 +1078,8 @@ video {
 .ads-table th {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   text-align: left;
   font-size: 12px;
   line-height: 16px;
@@ -1104,8 +1104,8 @@ video {
 .ads-table td {
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   --tw-text-opacity: 1;
   color: rgb(23 43 77 / var(--tw-text-opacity, 1));
 }
@@ -1376,6 +1376,10 @@ video {
 .border-dashed {
   border-style: dashed;
 }
+.border-N-30 {
+  --tw-border-opacity: 1;
+  border-color: rgb(235 236 240 / var(--tw-border-opacity, 1));
+}
 .border-N-40 {
   --tw-border-opacity: 1;
   border-color: rgb(223 225 230 / var(--tw-border-opacity, 1));
@@ -1390,10 +1394,6 @@ video {
 }
 .border-transparent {
   border-color: transparent;
-}
-.border-N-30 {
-  --tw-border-opacity: 1;
-  border-color: rgb(235 236 240 / var(--tw-border-opacity, 1));
 }
 .bg-N-10 {
   --tw-bg-opacity: 1;
@@ -1450,8 +1450,8 @@ video {
 .p-1 {
   padding: 0.25rem;
 }
-.p-3 {
-  padding: 0.75rem;
+.p-4 {
+  padding: 1rem;
 }
 .p-5 {
   padding: 1.25rem;
@@ -1461,9 +1461,6 @@ video {
 }
 .p-8 {
   padding: 2rem;
-}
-.p-4 {
-  padding: 1rem;
 }
 .px-1 {
   padding-left: 0.25rem;
@@ -1667,50 +1664,40 @@ video {
 .duration-75 {
   transition-duration: 75ms;
 }
-
 .hover\:border-N-50:hover {
   --tw-border-opacity: 1;
   border-color: rgb(193 199 208 / var(--tw-border-opacity, 1));
 }
-
 .hover\:bg-N-10:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(250 251 252 / var(--tw-bg-opacity, 1));
 }
-
 .hover\:bg-N-20:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(244 245 247 / var(--tw-bg-opacity, 1));
 }
-
 .hover\:bg-N-30:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(235 236 240 / var(--tw-bg-opacity, 1));
 }
-
 .hover\:text-N-800:hover {
   --tw-text-opacity: 1;
   color: rgb(23 43 77 / var(--tw-text-opacity, 1));
 }
-
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
-
 .focus\:border-danger:focus {
   --tw-border-opacity: 1;
   border-color: rgb(222 53 11 / var(--tw-border-opacity, 1));
 }
-
 .disabled\:cursor-not-allowed:disabled {
   cursor: not-allowed;
 }
-
 .disabled\:text-N-50:disabled {
   --tw-text-opacity: 1;
   color: rgb(193 199 208 / var(--tw-text-opacity, 1));
 }
-
 .\[\&_\.mb-3\]\:mb-0 .mb-3 {
   margin-bottom: 0px;
 }
