@@ -60,8 +60,8 @@
 
   /* ── ADS Input ── */
   .ads-input {
-    @apply w-full px-2.5 py-1.5 text-body-md text-N-800 bg-N-10
-           border-2 border-N-40 rounded-md
+    @apply w-full px-2.5 py-3 text-body-md text-N-800 bg-N-10
+           border border-N-40 rounded-md
            outline-none
            focus:bg-white focus:border-brand
            placeholder:text-N-200
