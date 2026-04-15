@@ -33,10 +33,12 @@ function decodeJwtPayload(token: string): AuthUser | null {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(() => {
+  const [user, setUser] = useState<AuthUser | null>(null);
+
+  useEffect(() => {
     const token = localStorage.getItem('access_token');
-    return token ? decodeJwtPayload(token) : null;
-  });
+    if (token) setUser(decodeJwtPayload(token));
+  }, []);
 
   const login = useCallback((accessToken: string, refreshToken: string) => {
     localStorage.setItem('access_token', accessToken);

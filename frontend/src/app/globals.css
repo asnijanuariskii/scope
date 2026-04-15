@@ -2,41 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer base {
-  /* M3 state layers */
-  .state-hover { @apply bg-on-surface/8; }
-  .state-focus { @apply bg-on-surface/12; }
-  .state-pressed { @apply bg-on-surface/12; }
-  .state-dragged { @apply bg-on-surface/16; }
-}
-
 @layer components {
   /* ── M3 Filled Button ── */
   .m3-btn-filled {
     @apply inline-flex items-center justify-center gap-2 px-6 h-10 rounded-full
            bg-primary text-primary-on text-label-lg font-medium
            hover:shadow-elevation-1 active:shadow-none
-           disabled:bg-on-surface/12 disabled:text-on-surface/38 disabled:shadow-none
            transition-all duration-200;
+  }
+  .m3-btn-filled:disabled {
+    @apply bg-on-surface/[0.12] text-on-surface/[0.38] shadow-none;
   }
 
   /* ── M3 Outlined Button ── */
   .m3-btn-outlined {
     @apply inline-flex items-center justify-center gap-2 px-6 h-10 rounded-full
            border border-outline text-primary text-label-lg font-medium bg-transparent
-           hover:bg-primary/8 active:bg-primary/12
-           disabled:border-on-surface/12 disabled:text-on-surface/38
+           hover:bg-primary/[0.08] active:bg-primary/[0.12]
            transition-all duration-200;
+  }
+  .m3-btn-outlined:disabled {
+    @apply border-on-surface/[0.12] text-on-surface/[0.38];
   }
 
   /* ── M3 Text Button ── */
   .m3-btn-text {
     @apply inline-flex items-center justify-center gap-2 px-3 h-10 rounded-full
            text-primary text-label-lg font-medium bg-transparent
-           hover:bg-primary/8 active:bg-primary/12
-           disabled:text-on-surface/38
+           hover:bg-primary/[0.08] active:bg-primary/[0.12]
            transition-all duration-200;
+  }
+  .m3-btn-text:disabled {
+    @apply text-on-surface/[0.38];
   }
 
   /* ── M3 Tonal Button ── */
@@ -44,8 +41,10 @@
     @apply inline-flex items-center justify-center gap-2 px-6 h-10 rounded-full
            bg-secondary-container text-secondary-on-container text-label-lg font-medium
            hover:shadow-elevation-1 active:shadow-none
-           disabled:bg-on-surface/12 disabled:text-on-surface/38 disabled:shadow-none
            transition-all duration-200;
+  }
+  .m3-btn-tonal:disabled {
+    @apply bg-on-surface/[0.12] text-on-surface/[0.38] shadow-none;
   }
 
   /* ── M3 FAB ── */
@@ -57,7 +56,10 @@
   }
 
   .m3-fab-extended {
-    @apply m3-fab px-4 pl-4 pr-5;
+    @apply inline-flex items-center justify-center gap-3 px-4 pl-4 pr-5 h-14 rounded-lg
+           bg-primary-container text-primary-on-container shadow-elevation-3
+           hover:shadow-elevation-4 active:shadow-elevation-3
+           transition-all duration-200;
   }
 
   /* ── M3 Card ── */
@@ -84,41 +86,42 @@
            outline-none
            focus:border-primary focus:border-2 focus:px-[15px]
            placeholder:text-on-surface-variant
-           disabled:border-on-surface/12 disabled:text-on-surface/38
            transition-colors duration-200;
+  }
+  .m3-input:disabled {
+    @apply border-on-surface/[0.12] text-on-surface/[0.38];
   }
 
   .m3-input-error {
-    @apply m3-input border-error focus:border-error;
+    @apply w-full px-4 py-3 text-body-lg text-on-surface bg-transparent
+           border border-error rounded-xs
+           outline-none
+           focus:border-error focus:border-2 focus:px-[15px]
+           placeholder:text-on-surface-variant
+           transition-colors duration-200;
   }
 
   /* ── M3 Select ── */
   .m3-select {
-    @apply m3-input appearance-none pr-10 cursor-pointer;
+    @apply w-full px-4 py-3 text-body-lg text-on-surface bg-transparent
+           border border-outline rounded-xs
+           outline-none appearance-none pr-10 cursor-pointer
+           focus:border-primary focus:border-2 focus:px-[15px]
+           transition-colors duration-200;
   }
 
   /* ── M3 Navigation Drawer Item ── */
   .m3-nav-item {
     @apply flex items-center gap-3 px-4 py-3 rounded-full text-label-lg
            text-on-surface-variant
-           hover:bg-on-surface/8
+           hover:bg-on-surface/[0.08]
            transition-all duration-200;
   }
 
   .m3-nav-item-active {
-    @apply m3-nav-item bg-secondary-container text-on-surface font-semibold;
-  }
-
-  /* ── M3 Chip (Assist) ── */
-  .m3-chip {
-    @apply inline-flex items-center gap-1.5 h-8 px-4 rounded-xs
-           border border-outline text-label-lg text-on-surface
-           hover:bg-on-surface/8
+    @apply flex items-center gap-3 px-4 py-3 rounded-full text-label-lg font-semibold
+           bg-secondary-container text-on-surface
            transition-all duration-200;
-  }
-
-  .m3-chip-selected {
-    @apply m3-chip border-0 bg-secondary-container text-on-surface;
   }
 
   /* ── M3 Badge ── */
@@ -128,16 +131,11 @@
 
   /* ── M3 Dialog / Modal ── */
   .m3-dialog-overlay {
-    @apply fixed inset-0 bg-black/32 flex items-center justify-center z-50;
+    @apply fixed inset-0 bg-black/[0.32] flex items-center justify-center z-50;
   }
 
   .m3-dialog {
     @apply bg-surface-container-high rounded-xl p-6 min-w-[280px] max-w-[560px] shadow-elevation-3;
-  }
-
-  /* ── M3 Divider ── */
-  .m3-divider {
-    @apply border-t border-outline-variant;
   }
 
   /* ── M3 Table ── */
@@ -154,7 +152,11 @@
   }
 
   .m3-table tbody tr {
-    @apply border-b border-outline-variant/50 hover:bg-on-surface/4 transition-colors;
+    @apply border-b border-outline-variant/50 transition-colors;
+  }
+
+  .m3-table tbody tr:hover {
+    @apply bg-on-surface/[0.04];
   }
 
   .m3-table td {

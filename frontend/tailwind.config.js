@@ -5,44 +5,34 @@ module.exports = {
     extend: {
       colors: {
         /* ── M3 Primary (source: #F82C17) ── */
-        primary: {
-          DEFAULT: '#C00100',
-          on: '#FFFFFF',
-          container: '#FFDAD4',
-          'on-container': '#410000',
-        },
+        primary: '#C00100',
+        'primary-on': '#FFFFFF',
+        'primary-container': '#FFDAD4',
+        'primary-on-container': '#410000',
         /* ── M3 Secondary ── */
-        secondary: {
-          DEFAULT: '#775651',
-          on: '#FFFFFF',
-          container: '#FFDAD4',
-          'on-container': '#2C1512',
-        },
+        secondary: '#775651',
+        'secondary-on': '#FFFFFF',
+        'secondary-container': '#FFDAD4',
+        'secondary-on-container': '#2C1512',
         /* ── M3 Tertiary ── */
-        tertiary: {
-          DEFAULT: '#6F5C2E',
-          on: '#FFFFFF',
-          container: '#FBDFA6',
-          'on-container': '#261A00',
-        },
+        tertiary: '#6F5C2E',
+        'tertiary-on': '#FFFFFF',
+        'tertiary-container': '#FBDFA6',
+        'tertiary-on-container': '#261A00',
         /* ── M3 Error ── */
-        error: {
-          DEFAULT: '#BA1A1A',
-          on: '#FFFFFF',
-          container: '#FFDAD6',
-          'on-container': '#410002',
-        },
+        error: '#BA1A1A',
+        'error-on': '#FFFFFF',
+        'error-container': '#FFDAD6',
+        'error-on-container': '#410002',
         /* ── M3 Surface / Neutral ── */
-        surface: {
-          DEFAULT: '#FFFBFF',
-          dim: '#E4D7D5',
-          bright: '#FFFBFF',
-          'container-lowest': '#FFFFFF',
-          'container-low': '#FFF0EE',
-          container: '#FCEAE7',
-          'container-high': '#F6E4E1',
-          'container-highest': '#F0DEDC',
-        },
+        surface: '#FFFBFF',
+        'surface-dim': '#E4D7D5',
+        'surface-bright': '#FFFBFF',
+        'surface-container-lowest': '#FFFFFF',
+        'surface-container-low': '#FFF0EE',
+        'surface-container': '#FCEAE7',
+        'surface-container-high': '#F6E4E1',
+        'surface-container-highest': '#F0DEDC',
         'on-surface': '#201A19',
         'on-surface-variant': '#534341',
         outline: '#857371',
@@ -50,17 +40,9 @@ module.exports = {
         'inverse-surface': '#362F2E',
         'inverse-on-surface': '#FBEEEC',
         'inverse-primary': '#FFB4A8',
-        /* ── Legacy aliases for easy migration ── */
+        /* ── Legacy aliases ── */
         brand: { DEFAULT: '#C00100', light: '#FFDAD4', dark: '#930100' },
-        n: {
-          0: '#FFFFFF',
-          100: '#FFF0EE',
-          200: '#D8C2BF',
-          400: '#857371',
-          600: '#534341',
-          700: '#3B2D2B',
-          800: '#201A19',
-        },
+        n: { 0: '#FFFFFF', 100: '#FFF0EE', 200: '#D8C2BF', 400: '#857371', 600: '#534341', 700: '#3B2D2B', 800: '#201A19' },
         b: { 100: '#FFDAD4', 200: '#FFB4A8', 300: '#FF897A', 400: '#C00100' },
         g: { 100: '#DCFCE7', 500: '#16A34A' },
         r: { 100: '#FFDAD6', 400: '#BA1A1A' },
@@ -84,7 +66,6 @@ module.exports = {
         'elevation-3': '0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3)',
         'elevation-4': '0 6px 10px 4px rgba(0,0,0,0.15), 0 2px 3px rgba(0,0,0,0.3)',
         'elevation-5': '0 8px 12px 6px rgba(0,0,0,0.15), 0 4px 4px rgba(0,0,0,0.3)',
-        /* Legacy aliases */
         card: '0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15)',
         overlay: '0 8px 12px 6px rgba(0,0,0,0.15), 0 4px 4px rgba(0,0,0,0.3)',
       },
