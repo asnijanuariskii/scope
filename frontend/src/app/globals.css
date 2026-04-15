@@ -55,7 +55,7 @@
 
   /* ── ADS Card ── */
   .ads-card {
-    @apply bg-white rounded-md border border-N-40 overflow-hidden;
+    @apply bg-white rounded-md border border-N-40 overflow-visible p-4;
   }
 
   /* ── ADS Input ── */

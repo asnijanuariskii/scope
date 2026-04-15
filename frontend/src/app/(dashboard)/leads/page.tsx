@@ -31,7 +31,7 @@ export default function LeadsPage() {
   return (
     <div className="ads-card">
       {/* Header: filters + add button */}
-      <div className="flex flex-wrap items-end justify-between gap-3 p-4 border-b border-N-30">
+      <div className="flex flex-wrap items-end justify-between gap-3 pb-4 border-b border-N-30">
         <LeadFilters filters={filters} onFilterChange={handleFilterChange} tipeOptions={tipeOptions} />
         <button className="ads-btn">
           <IconPlus size={16} stroke={2} /> Add Lead
@@ -45,7 +45,7 @@ export default function LeadsPage() {
       {data && (
         <>
           <LeadTable leads={data.data} onRowClick={handleRowClick} startIndex={startIndex} />
-          <div className="flex items-center justify-between px-4 py-3 border-t border-N-30">
+          <div className="flex items-center justify-between pt-3 border-t border-N-30">
             <span className="text-body-sm text-N-200">
               {data.total > 0 ? `${startIndex + 1} to ${Math.min(startIndex + (filters.limit ?? 10), data.total)} of ${data.total} entries` : '0 entries'}
             </span>
