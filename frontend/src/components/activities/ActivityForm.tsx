@@ -42,7 +42,7 @@ export default function ActivityForm({ initialData, onSubmit, onCancel, loading 
         onChange={(e) => { setForm((p) => ({ ...p, activityType: e.target.value as ActivityType | '' })); if (errors.activityType) setErrors((p) => ({ ...p, activityType: undefined })); }}
         error={errors.activityType} placeholder="— Pilih tipe —" />
       <div className="mb-3">
-        <label htmlFor={notesId} className="block text-label-md text-N-300 mb-1">Notes</label>
+        <label htmlFor={notesId} className="block text-label-md text-N-300 mb-2">Notes</label>
         <textarea id={notesId}
           className={`ads-input min-h-[80px] resize-y ${errors.notes ? 'border-danger focus:border-danger' : ''}`}
           value={form.notes}

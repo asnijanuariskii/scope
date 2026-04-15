@@ -12,7 +12,7 @@ export default function Input({ label, error, id, className, ...props }: InputPr
   return (
     <div className="mb-3">
       {label && (
-        <label htmlFor={inputId} className="block text-label-md text-N-300 mb-1">
+        <label htmlFor={inputId} className="block text-label-md text-N-300 mb-2">
           {label}{props.required && <span className="text-danger ml-0.5">*</span>}
         </label>
       )}

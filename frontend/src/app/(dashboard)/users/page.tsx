@@ -75,7 +75,7 @@ export default function UsersPage() {
               <Field label="Nama" value={form.nama} onChange={(v) => setForm({ ...form, nama: v })} />
               <Field label="Employee ID" value={form.employee_id} onChange={(v) => setForm({ ...form, employee_id: v })} />
               <Field label="No. Telepon" value={form.phone_number} onChange={(v) => setForm({ ...form, phone_number: v })} />
-              <label className="block text-label-md text-N-300 mb-1">Role</label>
+              <label className="block text-label-md text-N-300 mb-2">Role</label>
               <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as Role | '' })}
                 className="ads-select mb-4">
                 <option value="">— Pilih Role —</option>
@@ -100,7 +100,7 @@ export default function UsersPage() {
 function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <>
-      <label className="block text-label-md text-N-300 mb-1">{label}</label>
+      <label className="block text-label-md text-N-300 mb-2">{label}</label>
       <input value={value} onChange={(e) => onChange(e.target.value)} className="ads-input mb-4" />
     </>
   );

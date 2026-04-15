@@ -41,7 +41,7 @@ export default function LoginPage() {
         {error && <div className="ads-section-error mb-4" role="alert">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <label className="block text-label-md text-N-300 mb-1">Employee ID</label>
+          <label className="block text-label-md text-N-300 mb-2">Employee ID</label>
           <input
             className="ads-input mb-5"
             value={employeeId}

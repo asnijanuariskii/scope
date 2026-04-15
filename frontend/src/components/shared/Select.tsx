@@ -14,7 +14,7 @@ export default function Select({ label, error, options, placeholder, id, classNa
   return (
     <div className="mb-3">
       {label && (
-        <label htmlFor={selectId} className="block text-label-md text-N-300 mb-1">{label}</label>
+        <label htmlFor={selectId} className="block text-label-md text-N-300 mb-2">{label}</label>
       )}
       <select
         id={selectId}

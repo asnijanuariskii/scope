@@ -17,7 +17,7 @@ export default function FileUpload({ label, accept, onChange, error, id }: FileU
 
   return (
     <div className="mb-3">
-      {label && <label htmlFor={inputId} className="block text-label-md text-N-300 mb-1">{label}</label>}
+      {label && <label htmlFor={inputId} className="block text-label-md text-N-300 mb-2">{label}</label>}
       <div
         onClick={() => ref.current?.click()}
         className="flex items-center gap-2.5 px-3 py-2.5 border-2 border-dashed border-N-40 rounded-sm cursor-pointer hover:bg-N-10 transition-colors"
