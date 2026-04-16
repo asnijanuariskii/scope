@@ -1,0 +1,11 @@
+CHANGELOG - 16 April 2026
+
+Branch: asni
+Repository: https://github.com/PCS-Indonesia/2604-dapursehat-pose
+
+---
+
+[2026-04-16]
+
+- aac1e74 fix: add supplier role to login redirect routes
+- 8163dc8 feat: RAB, Procurement, Supplier Portal - full flow implementation
